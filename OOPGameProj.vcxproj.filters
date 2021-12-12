@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{1b678a6d-fc05-43ec-9743-72447d8e507a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\png">
+      <UniqueIdentifier>{62b971ff-bc62-4ca1-81a9-415865980881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{1563be8e-7371-46c2-a1fa-f4b077e2feee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\lvl1">
+      <UniqueIdentifier>{9bd3e671-87aa-48dc-8f59-2dfa3061105c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\hello_world.bmp">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\down.bmp">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\left.bmp">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\press.bmp">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\right.bmp">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\up.bmp">
+      <Filter>assets</Filter>
+    </Image>
+    <Image Include="assets\png\1.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\2.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\FLOOR_1A.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\FLOOR_2A.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\FLOOR_2E.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\STEEL_1A.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\LIGHT_1C.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\STONE_1A.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\STONE_1B.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\STONE_2A.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\STONE_2B.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\RIVET_1A.png">
+      <Filter>assets\png</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="textureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="animatedGameObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="staticGameObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="textureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dataStructures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="animatedGameObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="staticGameObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config\lvl1\lvl1_objs.txt">
+      <Filter>config\lvl1</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config\lvl1\lvl1_enemies.txt">
+      <Filter>config\lvl1</Filter>
+    </None>
+  </ItemGroup>
+</Project>
