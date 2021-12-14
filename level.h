@@ -15,6 +15,9 @@ class level
 	Player* player;
 	Enemy** enemies;
 
+	SDL_Rect* staticHitBoxes;
+	//SDL_Rect* mobileHitBoxes;
+
 public:
 	level() 
 	{
@@ -23,6 +26,7 @@ public:
 		lvlObjsArray = NULL;
 		player = NULL;
 		enemies = NULL;
+		staticHitBoxes = NULL;
 	}
 
 	level(SDL_Renderer* rend, int id)
@@ -40,9 +44,14 @@ public:
 		floorTexture = NULL;
 		delete[] lvlObjsArray;
 		lvlObjsArray = NULL;
+
 		delete player;
 		player = NULL;
+
 		delete[] enemies;
+
+		delete[] staticHitBoxes;
+		staticHitBoxes = NULL;
 	}
 
 	void loadLvlData(SDL_Renderer* rend);

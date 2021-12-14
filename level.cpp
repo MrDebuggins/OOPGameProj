@@ -46,6 +46,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 
 	objData >> objNr;
 	lvlObjsArray = new staticGameObj*[objNr];
+	staticHitBoxes = new SDL_Rect[objNr];
 
 
 	//load static objects from txt file
@@ -60,10 +61,9 @@ void level::loadLvlData(SDL_Renderer* rend)
 		else
 			lvlObjsArray[i]->loadStaticObjTexture("assets/png/STONE_2B.png", rend);
 
-		SDL_Rect r;
-		objData >> r.x >> r.y >> r.w >> r.h;
+		objData >> staticHitBoxes[i].x >> staticHitBoxes[i].y >> staticHitBoxes[i].w >> staticHitBoxes[i].h;
 
-		lvlObjsArray[i]->setObjHitBox(r);
+		lvlObjsArray[i]->setObjHitBox(staticHitBoxes[i]);
 	}
 
 	objData.close();
@@ -103,12 +103,28 @@ void level::loadLvlData(SDL_Renderer* rend)
 
 void level::lvlEventHandler(SDL_Event* e) 
 {
-	player->eventHandler(e);
-	player->collisionHandler(e);
+	player->inputHandler(e);
+
+	for (int i = 0; i < objNr; i++) 
+	{
+		player->collisionHandler(e, staticHitBoxes[i]);
+	}
 	player->move();
 
 	for (int i = 0; i < enemiesNr; i++)
 	{
+		enemies[i]->mapCollision();
+		for (int j = 0; j < objNr; j++) 
+		{
+			enemies[i]->setDirFlags(staticHitBoxes[j]);  //verify directions by static obj's
+		}
+
+		for (int k = 0; k < enemiesNr; k++) 
+		{
+			if (k != i)
+				enemies[i]->setDirFlags(enemies[k]->getHitBox());  //verify directions by other NPC's
+		}
+
 		enemies[i]->enemyMovement();
 		enemies[i]->move();
 	}

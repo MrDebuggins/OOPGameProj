@@ -43,7 +43,7 @@ void Enemy::setEnemyLvl(int lvl)
 		velocity = 3;
 		break;
 	case 3:
-		velocity = 4;
+		velocity = 1;
 		break;
 	default:
 		break;
@@ -55,26 +55,49 @@ void Enemy::draw(SDL_Renderer* rend)
 	textureManager::drawTexture(texturesArray[animID / 5], NULL, rend, &shape, viewDirection);
 }
 
-void Enemy::setDirFlags() 
+SDL_Rect Enemy::getHitBox() 
 {
-	
+	return shape;
+}
+
+void Enemy::setDirFlags(SDL_Rect s) 
+{
+	//verify allowed directions by objescts
+	if ((shape.x + shape.h >= s.x - 5) && (shape.x + shape.h < s.x + 5) && (shape.y >= s.y - shape.w) && (shape.y <= s.y + s.h))
+		movementDirFlags[1] = 0;
+	if ((shape.x <= s.x + s.w + 5) && (shape.x > s.x + s.w - 5) && (shape.y >= s.y - shape.w) && (shape.y <= s.y + s.h))
+		movementDirFlags[3] = 0;
+	if ((shape.y + shape.h >= s.y - 5) && (shape.y + shape.h < s.y + 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
+		movementDirFlags[2] = 0;
+	if ((shape.y <= s.y + s.h + 5) && (shape.y > s.y + s.h - 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
+		movementDirFlags[0] = 0;
+
+	//verify allowed directions by mobile objects
+	//if ((shape.x + shape.h >= m.x - 5) && (shape.x + shape.h < m.x + 5) && (shape.y >= m.y - shape.w) && (shape.y <= m.y + m.h))
+	//	movementDirFlags[1] = 0;
+	//if ((shape.x <= m.x + m.w + 5) && (shape.x > m.x + m.w - 5) && (shape.y >= m.y - shape.w) && (shape.y <= m.y + m.h))
+	//	movementDirFlags[3] = 0;
+	//if ((shape.y + shape.h >= m.y - 5) && (shape.y + shape.h < m.y + 5) && (shape.x >= m.x - shape.w) && (shape.x <= m.x + m.w))
+	//	movementDirFlags[2] = 0;
+	//if ((shape.y <= m.y + m.h + 5) && (shape.y > m.y + m.h - 5) && (shape.x >= m.x - shape.w) && (shape.x <= m.x + m.w))
+	//	movementDirFlags[0] = 0;
+}
+
+void Enemy::mapCollision() 
+{
+	//verify allowed movement directions by level borders (don't forgorr to optimaze map collisions)
+	if (shape.x <= 5)
+		movementDirFlags[3] = 0;
+	if (shape.x >= Game::screenWidth - 71)
+		movementDirFlags[1] = 0;
+	if (shape.y <= 5)
+		movementDirFlags[0] = 0;
+	if (shape.y >= Game::screenHeight - 71)
+		movementDirFlags[2] = 0;
 }
 
 void Enemy::enemyMovement() 
 {
-	for (int i = 0; i < 4; i++)
-		movementDirFlags[i] = 1;
-
-	//verify allowed movement directions
-	if (shape.x <= 10) 
-		movementDirFlags[3] = 0;
-	if (shape.x >= Game::screenWidth - 71)
-		movementDirFlags[1] = 0;
-	if (shape.y <= 10)
-		movementDirFlags[0] = 0;
-	if (shape.y >= Game::screenHeight - 71)
-		movementDirFlags[2] = 0;
-
 	if (movementContor >= distanceToMove || movementDirFlags[viewDirection / 90] == 0) 
 	{
 		xVelocity = 0;
@@ -135,4 +158,7 @@ void Enemy::move()
 	shape.x += xVelocity;
 	movementContor += abs(xVelocity);
 	movementContor += abs(yVelocity);
+
+	for (int i = 0; i < 4; i++)
+		movementDirFlags[i] = 1;
 }

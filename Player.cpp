@@ -2,7 +2,7 @@
 #include "textureManager.h"
 #include "Game.h"
 
-void Player::eventHandler(SDL_Event* e)
+void Player::inputHandler(SDL_Event* e)
 {
 	if (e->type == SDL_KEYDOWN && e->key.repeat == 0)
 	{
@@ -78,14 +78,24 @@ void Player::eventHandler(SDL_Event* e)
 	}
 }
 
-void Player::collisionHandler(SDL_Event* e) 
+void Player::collisionHandler(SDL_Event* e, SDL_Rect r) 
 {
 	//map border collision detect
 	if ((shape.y == 1 && yVelocity < 0) || (shape.y == Game::screenHeight - 1 - shape.h && yVelocity > 0))
 		yVelocity = 0;
 	if ((shape.x == 1 && xVelocity < 0) || (shape.x == Game::screenWidth - 1 - shape.w && xVelocity > 0))
 		xVelocity = 0;
-		
+
+	//SDL_Log("%d", xVelocity);
+	//static game objects collision detection (is verifying for every side os the static object)
+	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 1) && (shape.x + shape.h < r.x + 3) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
+		xVelocity = 0;
+	if ((xVelocity < 0) && (shape.x <= r.x + r.w + 1) && (shape.x > r.x + r.w - 3) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
+		xVelocity = 0;
+	if ((yVelocity > 0) && (shape.y + shape.h >= r.y - 1) && (shape.y < r.y + 3) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
+		yVelocity = 0;
+	if ((yVelocity < 0) && (shape.y <= r.y + r.h + 1) && (shape.y > r.y + r.h - 3) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
+		yVelocity = 0;
 }
 
 void Player::draw(SDL_Renderer* rend) 

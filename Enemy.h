@@ -22,7 +22,9 @@ public:
 	void setEnemyiHitBox(SDL_Rect r);
 	void setEnemyLvl(int lvl);
 	void draw(SDL_Renderer* rend);
-	void setDirFlags();
+	SDL_Rect getHitBox();
+	void setDirFlags(SDL_Rect s);
+	void mapCollision();
 	void enemyMovement();
 	void move();
 };
