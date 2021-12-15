@@ -29,11 +29,6 @@ void Game::initGame(const char title[], int pos_x, int pos_y, SDL_WindowFlags wi
 	}
 
 	lvl1 = new level(renderer, 1);
-
-	//player = new Player;
-	//player->loadPlayerTextures(renderer);
-
-	
 }
 
 void Game::eventHandler() 

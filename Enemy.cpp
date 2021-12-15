@@ -71,16 +71,6 @@ void Enemy::setDirFlags(SDL_Rect s)
 		movementDirFlags[2] = 0;
 	if ((shape.y <= s.y + s.h + 5) && (shape.y > s.y + s.h - 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
 		movementDirFlags[0] = 0;
-
-	//verify allowed directions by mobile objects
-	//if ((shape.x + shape.h >= m.x - 5) && (shape.x + shape.h < m.x + 5) && (shape.y >= m.y - shape.w) && (shape.y <= m.y + m.h))
-	//	movementDirFlags[1] = 0;
-	//if ((shape.x <= m.x + m.w + 5) && (shape.x > m.x + m.w - 5) && (shape.y >= m.y - shape.w) && (shape.y <= m.y + m.h))
-	//	movementDirFlags[3] = 0;
-	//if ((shape.y + shape.h >= m.y - 5) && (shape.y + shape.h < m.y + 5) && (shape.x >= m.x - shape.w) && (shape.x <= m.x + m.w))
-	//	movementDirFlags[2] = 0;
-	//if ((shape.y <= m.y + m.h + 5) && (shape.y > m.y + m.h - 5) && (shape.x >= m.x - shape.w) && (shape.x <= m.x + m.w))
-	//	movementDirFlags[0] = 0;
 }
 
 void Enemy::mapCollision() 
