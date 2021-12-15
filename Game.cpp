@@ -54,9 +54,6 @@ void Game::clear()
 
 void Game::update() 
 {
-	//player->eventHandler(&event);
-	//player->collisionHandler(&event);
-	//player->move();
 	lvl1->lvlEventHandler(&event);
 }
 
@@ -67,7 +64,6 @@ void Game::render()
 
 	lvl1->drawLvlFloor(renderer);
 	lvl1->drawLvlObjs(renderer);
-	//player->draw(renderer);
 
 	SDL_RenderPresent(renderer);
 }

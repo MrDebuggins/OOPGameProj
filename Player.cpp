@@ -86,7 +86,6 @@ void Player::collisionHandler(SDL_Event* e, SDL_Rect r)
 	if ((shape.x == 1 && xVelocity < 0) || (shape.x == Game::screenWidth - 1 - shape.w && xVelocity > 0))
 		xVelocity = 0;
 
-	//SDL_Log("%d", xVelocity);
 	//static game objects collision detection (is verifying for every side os the static object)
 	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 1) && (shape.x + shape.h < r.x + 3) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
 		xVelocity = 0;
