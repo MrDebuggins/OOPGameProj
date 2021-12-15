@@ -126,8 +126,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Grigore\source\repos\OOPGameProj\SDL2_image-2.0.5\include;C:\Users\Grigore\source\repos\OOPGameProj\SDL2-2.0.16\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Grigore\source\repos\OOPGameProj\SDL2_image-2.0.5\lib\x64;C:\Users\Grigore\source\repos\OOPGameProj\SDL2-2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Grigore\source\repos\SDL2_image-2.0.5\include;C:\Users\Grigore\source\repos\SDL2-2.0.16\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Grigore\source\repos\SDL2_image-2.0.5\lib\x64;C:\Users\Grigore\source\repos\SDL2-2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
