@@ -1,8 +1,10 @@
 #pragma once
+#include <list>
 #include "textureManager.h"
 #include "staticGameObj.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "projectile.h"
 
 class level
 {
@@ -14,9 +16,9 @@ class level
 	staticGameObj** lvlObjsArray;
 	Player* player;
 	Enemy** enemies;
+	projectile** projectiles;
 
 	SDL_Rect* staticHitBoxes;
-	//SDL_Rect* mobileHitBoxes;
 
 public:
 	level() 
@@ -24,9 +26,12 @@ public:
 		lvlID = 1;
 		floorTexture = NULL;
 		lvlObjsArray = NULL;
+
 		player = NULL;
 		enemies = NULL;
+
 		staticHitBoxes = NULL;
+		projectiles = NULL;
 	}
 
 	level(SDL_Renderer* rend, int id)

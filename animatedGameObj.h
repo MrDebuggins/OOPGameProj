@@ -4,24 +4,24 @@ class animatedGameObj :public gameObject
 {
 protected:
 	SDL_Texture** texturesArray;
-	int HP;
+	//int HP;
 
-	int xVelocity;
-	int yVelocity;
+	//int xVelocity;
+	//int yVelocity;
 	int velocity;
-	int viewDirection;
+	//int viewDirection;
 	int animID;
 
 public:
 	animatedGameObj() 
 	{
 		texturesArray = NULL;
-		HP = 0;
+		//HP = 0;
 
-		xVelocity = 0;
-		yVelocity = 0;
+		//xVelocity = 0;
+		//yVelocity = 0;
 		velocity = 2;
-		viewDirection = 0;
+		//viewDirection = 0;
 		animID = 0;
 	}
 

@@ -1,7 +1,7 @@
 #pragma once
-#include "animatedGameObj.h"
+#include "entity.h"
 
-class Player : public animatedGameObj
+class Player : public entity
 {
 
 

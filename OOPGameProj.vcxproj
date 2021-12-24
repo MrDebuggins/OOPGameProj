@@ -41,11 +41,13 @@
   <ItemGroup>
     <ClCompile Include="animatedGameObj.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="projectile.cpp" />
     <ClCompile Include="staticGameObj.cpp" />
     <ClCompile Include="textureManager.cpp" />
   </ItemGroup>
@@ -53,10 +55,12 @@
     <ClInclude Include="animatedGameObj.h" />
     <ClInclude Include="dataStructures.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="projectile.h" />
     <ClInclude Include="staticGameObj.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
@@ -77,13 +81,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -96,7 +100,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -126,8 +130,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Grigore\source\repos\SDL2_image-2.0.5\include;C:\Users\Grigore\source\repos\SDL2-2.0.16\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Grigore\source\repos\SDL2_image-2.0.5\lib\x64;C:\Users\Grigore\source\repos\SDL2-2.0.16\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\onofr\source\repos\SDL2_image-2.0.5\include;C:\Users\onofr\source\repos\SDL2-2.0.18\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\onofr\source\repos\SDL2_image-2.0.5\lib\x64;C:\Users\onofr\source\repos\SDL2-2.0.18\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

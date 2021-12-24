@@ -89,7 +89,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 		objData >> lvl;
 		enemies[i]->setEnemyLvl(lvl);
 
-		SDL_Rect r;
+		SDL_Rect r{};
 		objData >> r.x >> r.y >> r.w >> r.h;
 		enemies[i]->setEnemyiHitBox(r);
 
@@ -99,6 +99,9 @@ void level::loadLvlData(SDL_Renderer* rend)
 	objData.close();
 
 	player->loadPlayerTextures(rend);
+
+	//load projectiles
+
 }
 
 void level::lvlEventHandler(SDL_Event* e) 

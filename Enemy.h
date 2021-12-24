@@ -1,7 +1,7 @@
 #pragma once
-#include "animatedGameObj.h"
+#include "entity.h"
 
-class Enemy : public animatedGameObj
+class Enemy : public entity
 {
 	int enemyLvl = 1;
 	bool movementDirFlags[4] = {1,1,1,1};
