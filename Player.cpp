@@ -69,6 +69,7 @@ void Player::inputHandler(SDL_Event* e)
 		}
 	}
 
+	//set next animation frame
 	if (yVelocity != 0 || xVelocity != 0) 
 	{
 		if (animID == 9)
