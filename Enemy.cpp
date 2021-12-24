@@ -50,6 +50,11 @@ void Enemy::setEnemyLvl(int lvl)
 	}
 }
 
+int Enemy::getEnemyLvl()
+{
+	return enemyLvl;
+}
+
 void Enemy::draw(SDL_Renderer* rend) 
 {
 	textureManager::drawTexture(texturesArray[animID / 5], NULL, rend, &shape, viewDirection);

@@ -12,7 +12,7 @@ class Game
 	bool running;
 
 	
-	level* lvl1;
+	level* lvl1 = NULL;
 	SDL_Event event;
 	//Player* player;
 	

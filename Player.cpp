@@ -2,8 +2,10 @@
 #include "textureManager.h"
 #include "Game.h"
 
-void Player::inputHandler(SDL_Event* e)
+bool Player::inputHandler(SDL_Event* e)
 {
+	bool shoot = false;
+
 	if (e->type == SDL_KEYDOWN && e->key.repeat == 0)
 	{
 		switch (e->key.keysym.sym)
@@ -39,6 +41,10 @@ void Player::inputHandler(SDL_Event* e)
 				yVelocity = 0;
 				viewDirection = 90;
 			}
+			break;
+		case SDLK_SPACE:
+			shoot = true;
+			SDL_Log("bang!\n");
 			break;
 		default:
 			break;
@@ -77,16 +83,12 @@ void Player::inputHandler(SDL_Event* e)
 		else
 			animID++;
 	}
+
+	return shoot;
 }
 
-void Player::collisionHandler(SDL_Event* e, SDL_Rect r) 
+void Player::objsCollision(SDL_Rect r)
 {
-	//map border collision detect
-	if ((shape.y == 1 && yVelocity < 0) || (shape.y == Game::screenHeight - 1 - shape.h && yVelocity > 0))
-		yVelocity = 0;
-	if ((shape.x == 1 && xVelocity < 0) || (shape.x == Game::screenWidth - 1 - shape.w && xVelocity > 0))
-		xVelocity = 0;
-
 	//static game objects collision detection (is verifying for every side os the static object)
 	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 1) && (shape.x + shape.h < r.x + 3) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
 		xVelocity = 0;
@@ -96,6 +98,14 @@ void Player::collisionHandler(SDL_Event* e, SDL_Rect r)
 		yVelocity = 0;
 	if ((yVelocity < 0) && (shape.y <= r.y + r.h + 1) && (shape.y > r.y + r.h - 3) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
 		yVelocity = 0;
+}
+
+void Player::mapCollision()
+{
+	if ((shape.y == 1 && yVelocity < 0) || (shape.y == Game::screenHeight - 1 - shape.h && yVelocity > 0))
+		yVelocity = 0;
+	if ((shape.x == 1 && xVelocity < 0) || (shape.x == Game::screenWidth - 1 - shape.w && xVelocity > 0))
+		xVelocity = 0;
 }
 
 void Player::draw(SDL_Renderer* rend) 
@@ -114,4 +124,14 @@ void Player::move()
 {
 	shape.y += yVelocity;
 	shape.x += xVelocity;
+}
+
+int Player::getViewDir()
+{
+	return viewDirection;
+}
+
+SDL_Rect Player::getHitBox()
+{
+	return shape;
 }

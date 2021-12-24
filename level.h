@@ -32,6 +32,9 @@ public:
 
 		staticHitBoxes = NULL;
 		projectiles = NULL;
+
+		objNr = 0;
+		enemiesNr = 0;
 	}
 
 	level(SDL_Renderer* rend, int id)

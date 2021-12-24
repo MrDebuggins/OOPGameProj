@@ -29,6 +29,7 @@ void level::drawLvlObjs(SDL_Renderer* rend)
 	}
 
 	player->draw(rend);
+	projectiles[enemiesNr]->draw(rend);
 }
 
 void level::loadLvlData(SDL_Renderer* rend) 
@@ -68,7 +69,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 
 	objData.close();
 
-	//load enemies from txt file
+	//load projectiles and enemies from txt file
 	switch (lvlID)
 	{
 	case 1:
@@ -81,13 +82,19 @@ void level::loadLvlData(SDL_Renderer* rend)
 	objData >> enemiesNr;
 	enemies = new Enemy*[enemiesNr];
 
+	projectiles = new projectile * [enemiesNr + 1];
+
 	for(int i = 0; i < enemiesNr; i++)
 	{
 		enemies[i] = new Enemy;
+		projectiles[i] = new projectile;
 
 		int lvl;
 		objData >> lvl;
 		enemies[i]->setEnemyLvl(lvl);
+
+		projectiles[i]->setType(lvl);
+		projectiles[i]->loadTexture(rend);
 
 		SDL_Rect r{};
 		objData >> r.x >> r.y >> r.w >> r.h;
@@ -96,23 +103,38 @@ void level::loadLvlData(SDL_Renderer* rend)
 		enemies[i]->loadEnemyTexture(rend);
 	}
 
+	projectiles[enemiesNr] = new projectile;
+	projectiles[enemiesNr]->setType(0);
+	projectiles[enemiesNr]->loadTexture(rend);
+
 	objData.close();
 
 	player->loadPlayerTextures(rend);
 
 	//load projectiles
+	//projectiles = new projectile * [enemiesNr + 1];
+	//for (int i = 0; i < enemiesNr; i++) 
+	//{
 
+	//}
 }
 
 void level::lvlEventHandler(SDL_Event* e) 
 {
-	player->inputHandler(e);
+	if (player->inputHandler(e)) 
+	{
+		SDL_Rect r = player->getHitBox();
+		projectiles[enemiesNr]->setExistFlag(true, player->getViewDir(), r.x, r.y);
+	}
 
 	for (int i = 0; i < objNr; i++) 
 	{
-		player->collisionHandler(e, staticHitBoxes[i]);
+		player->objsCollision(staticHitBoxes[i]);
 	}
+	player->mapCollision();
 	player->move();
+	projectiles[enemiesNr]->mapCollision();
+	projectiles[enemiesNr]->move();
 
 	for (int i = 0; i < enemiesNr; i++)
 	{

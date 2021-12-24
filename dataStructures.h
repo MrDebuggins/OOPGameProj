@@ -21,3 +21,10 @@ struct pos
 {
 	int x, y;
 };
+
+enum projectileTypes
+{
+	bullet,
+	plasma,
+	twoBullets,
+};

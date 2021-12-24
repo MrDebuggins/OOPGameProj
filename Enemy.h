@@ -21,6 +21,7 @@ public:
 	void loadEnemyTexture(SDL_Renderer* rend);
 	void setEnemyiHitBox(SDL_Rect r);
 	void setEnemyLvl(int lvl);
+	int getEnemyLvl();
 	void draw(SDL_Renderer* rend);
 	SDL_Rect getHitBox();
 	void setDirFlags(SDL_Rect s);
