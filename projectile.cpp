@@ -6,8 +6,26 @@ void projectile::setExistFlag(bool f, int viewDir, int posx, int posy)
 {
 	show = f;
 	this->viewDir = viewDir;
-	shape.x = posx;
-	shape.y = posy;
+
+	switch (viewDir)
+	{
+	case 0:
+		shape.x = posx + 22;
+		shape.y = posy - 16;
+		break;
+	case 90:
+		shape.x = posx + 50 + 5;
+		shape.y = posy + 22 - 5;
+		break;
+	case 180:
+		shape.x = posx + 22;
+		shape.y = posy + 50;
+		break;
+	case 270:
+		shape.x = posx - 16 + 5;
+		shape.y = posy + 22 - 5;
+		break;
+	}
 }
 
 bool projectile::getExistFlag()
@@ -17,16 +35,28 @@ bool projectile::getExistFlag()
 
 void projectile::loadTexture(SDL_Renderer* rend)
 {
-	projTexture = textureManager::loadTexture("assets/png/effects/Sniper_Shell.png", rend);
+	projTexture = textureManager::loadTexture("assets/png/effects/Heavy_Shell.png", rend);
 }
 
 void projectile::setType(int type)
 {
-	this->type = (projectileTypes)type;
-	if (type == bullet || type == twoBullets)
-		velocity = 2;
-	else
-		velocity = 3;
+	switch (type)
+	{
+	case bullet:
+		velocity = 10;
+		damage = 1;
+		break;
+	case twoBullets:
+		velocity = 4;
+		damage = 3;
+		break;
+	case plasma:
+		velocity = 6;
+		damage = 2;
+		break;
+	default:
+		break;
+	}
 }
 
 void projectile::mapCollision()
@@ -35,6 +65,38 @@ void projectile::mapCollision()
 		show = false;//kaboom
 	if ((shape.x <= 1) || (shape.x >= Game::screenWidth - 1 - shape.w))
 		show = false;//kaboom
+}
+
+int projectile::objCollision(SDL_Rect* s, bool npc)
+{
+	if (show == true) 
+	{
+		if ((shape.x + shape.h >= s->x - 5) && (shape.x + shape.h < s->x + 5) && (shape.y + 5 + shape.w >= s->y) && (shape.y + 5 <= s->y + s->h) && (viewDir == 90 || npc))
+		{
+			show = false;
+			SDL_Log("11111");
+		}
+		else if ((shape.x <= s->x + s->w + 5) && (shape.x > s->x + s->w - 5) && (shape.y + 5 >= s->y - shape.w) && (shape.y + 5 <= s->y + s->h) && (viewDir == 270 || npc))
+		{
+			show = false;
+			SDL_Log("33333");
+		}
+		else if ((shape.y + shape.h >= s->y - 5) && (shape.y + shape.h < s->y + 5) && (shape.x >= s->x - shape.w) && (shape.x <= s->x + s->w) && (viewDir == 180 || npc))
+		{
+			show = false;
+			SDL_Log("22222");
+		}
+		else if ((shape.y <= s->y + s->h + 5) && (shape.y + 5 > s->y + s->h - 5) && (shape.x + shape.w >= s->x) && (shape.x <= s->x + s->w) && (viewDir == 0 || npc))
+		{
+			show = false;
+			SDL_Log("00000");
+		}
+
+		if (show == false)
+			return damage;
+	}
+
+	return 0;
 }
 
 void projectile::move()
@@ -58,16 +120,11 @@ void projectile::move()
 		default:
 			break;
 		}
-
-		SDL_Log("move\n");
 	}
 }
 
 void projectile::draw(SDL_Renderer* rend)
 {
-	if(show == true)
-	{
+	if (show == true)
 		textureManager::drawTexture(projTexture, NULL, rend, &shape, viewDir);
-		SDL_Log("draw\n");
-	}
 }

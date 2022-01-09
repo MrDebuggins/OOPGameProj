@@ -34,16 +34,20 @@ void Enemy::setEnemyiHitBox(SDL_Rect r)
 void Enemy::setEnemyLvl(int lvl)
 {
 	enemyLvl = lvl;
+	alive = true;
 	switch (enemyLvl)
 	{
 	case 1:
 		velocity = 2;
+		HP = 2;
 		break;
 	case 2:
 		velocity = 3;
+		HP = 2;
 		break;
 	case 3:
 		velocity = 1;
+		HP = 4;
 		break;
 	default:
 		break;
@@ -60,21 +64,23 @@ void Enemy::draw(SDL_Renderer* rend)
 	textureManager::drawTexture(texturesArray[animID / 5], NULL, rend, &shape, viewDirection);
 }
 
-SDL_Rect Enemy::getHitBox() 
+SDL_Rect Enemy::getHitBox(const char* str) 
 {
+	//SDL_Log(str);
 	return shape;
 }
 
 void Enemy::setDirFlags(SDL_Rect s) 
 {
+	
 	//verify allowed directions by objescts
 	if ((shape.x + shape.h >= s.x - 5) && (shape.x + shape.h < s.x + 5) && (shape.y >= s.y - shape.w) && (shape.y <= s.y + s.h))
 		movementDirFlags[1] = 0;
-	if ((shape.x <= s.x + s.w + 5) && (shape.x > s.x + s.w - 5) && (shape.y >= s.y - shape.w) && (shape.y <= s.y + s.h))
+	else if ((shape.x <= s.x + s.w + 5) && (shape.x > s.x + s.w - 5) && (shape.y >= s.y - shape.w) && (shape.y <= s.y + s.h))
 		movementDirFlags[3] = 0;
-	if ((shape.y + shape.h >= s.y - 5) && (shape.y + shape.h < s.y + 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
+	else if ((shape.y + shape.h >= s.y - 5) && (shape.y + shape.h < s.y + 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
 		movementDirFlags[2] = 0;
-	if ((shape.y <= s.y + s.h + 5) && (shape.y > s.y + s.h - 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
+	else if ((shape.y <= s.y + s.h + 5) && (shape.y > s.y + s.h - 5) && (shape.x >= s.x - shape.w) && (shape.x <= s.x + s.w))
 		movementDirFlags[0] = 0;
 }
 
@@ -156,4 +162,14 @@ void Enemy::move()
 
 	for (int i = 0; i < 4; i++)
 		movementDirFlags[i] = 1;
+}
+
+void Enemy::getDmg(int dmg)
+{
+	HP = HP - dmg;
+	if (HP <= 0) 
+	{
+		SDL_Log("destroyed\n");
+		alive = false;
+	}
 }

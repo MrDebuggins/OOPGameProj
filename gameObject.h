@@ -14,5 +14,10 @@ public:
 		shape = { 0,0,0,0 };
 		type = objTypeDefault;
 	}
+
+	~gameObject() 
+	{
+
+	}
 };
 

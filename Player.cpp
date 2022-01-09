@@ -44,7 +44,6 @@ bool Player::inputHandler(SDL_Event* e)
 			break;
 		case SDLK_SPACE:
 			shoot = true;
-			SDL_Log("bang!\n");
 			break;
 		default:
 			break;
@@ -134,4 +133,13 @@ int Player::getViewDir()
 SDL_Rect Player::getHitBox()
 {
 	return shape;
+}
+
+void Player::getDmg(int dmg)
+{
+	HP = HP - dmg;
+	if (HP <= 0) 
+	{
+		SDL_Log("you died\n");
+	}
 }

@@ -11,6 +11,7 @@ public:
 		shape = { 1,1,50,50 };
 		type = obgjTypePlayer;
 		velocity = 2;
+		HP = 3;
 	}
 
 	bool inputHandler(SDL_Event* e);
@@ -21,5 +22,6 @@ public:
 	void mapCollision();
 	int getViewDir();
 	SDL_Rect getHitBox();
+	void getDmg(int dmg);
 };
 
