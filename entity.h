@@ -7,6 +7,7 @@ protected:
 	int yVelocity;
 	int viewDirection;
 	int HP;
+	int lastShootTime;
 
 public:
 	entity() 
@@ -15,6 +16,7 @@ public:
 		yVelocity = 0;
 		viewDirection = 0;
 		HP = 0;
+		lastShootTime = 0;
 	}
 
 	~entity() 

@@ -27,5 +27,7 @@ public:
 	int objCollision(SDL_Rect* obj, bool npcOrObj);
 	void move();
 	void draw(SDL_Renderer* rend);
+	SDL_Rect* getHitBox() { return &shape; }
+	int getViewDir() { return viewDir; }
 };
 

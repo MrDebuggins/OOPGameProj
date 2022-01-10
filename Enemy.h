@@ -36,9 +36,11 @@ public:
 	SDL_Rect getHitBox(const char* str);
 	void setDirFlags(SDL_Rect s);
 	void mapCollision();
+	bool behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player);
 	void enemyMovement();
 	void move();
 	void getDmg(int dmg);
 	bool getState() { return alive; }
+	void checkIfCanDodge(int dir);
 };
 

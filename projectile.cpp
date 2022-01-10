@@ -43,7 +43,7 @@ void projectile::setType(int type)
 	switch (type)
 	{
 	case bullet:
-		velocity = 10;
+		velocity = 6;
 		damage = 1;
 		break;
 	case twoBullets:
@@ -71,29 +71,34 @@ int projectile::objCollision(SDL_Rect* s, bool npc)
 {
 	if (show == true) 
 	{
-		if ((shape.x + shape.h >= s->x - 5) && (shape.x + shape.h < s->x + 5) && (shape.y + 5 + shape.w >= s->y) && (shape.y + 5 <= s->y + s->h) && (viewDir == 90 || npc))
+		if ((shape.x + shape.h >= s->x - 5) && (shape.x + shape.h <= s->x + 5) && (shape.y + 5 + shape.w >= s->y) && (shape.y + 5 <= s->y + s->h) && (viewDir == 90 || npc))
 		{
 			show = false;
-			SDL_Log("11111");
+			//SDL_Log("11111");
 		}
-		else if ((shape.x <= s->x + s->w + 5) && (shape.x > s->x + s->w - 5) && (shape.y + 5 >= s->y - shape.w) && (shape.y + 5 <= s->y + s->h) && (viewDir == 270 || npc))
+		else if ((shape.x <= s->x + s->w + 5) && (shape.x >= s->x + s->w - 5) && (shape.y + 5 >= s->y - shape.w) && (shape.y + 5 <= s->y + s->h) && (viewDir == 270 || npc))
 		{
 			show = false;
-			SDL_Log("33333");
+			//SDL_Log("33333");
 		}
-		else if ((shape.y + shape.h >= s->y - 5) && (shape.y + shape.h < s->y + 5) && (shape.x >= s->x - shape.w) && (shape.x <= s->x + s->w) && (viewDir == 180 || npc))
+		else if ((shape.y + shape.h >= s->y - 5) && (shape.y + shape.h <= s->y + 5) && (shape.x >= s->x - shape.w) && (shape.x <= s->x + s->w) && (viewDir == 180 || npc))
 		{
 			show = false;
-			SDL_Log("22222");
+			//SDL_Log("22222");
 		}
-		else if ((shape.y <= s->y + s->h + 5) && (shape.y + 5 > s->y + s->h - 5) && (shape.x + shape.w >= s->x) && (shape.x <= s->x + s->w) && (viewDir == 0 || npc))
+		else if ((shape.y <= s->y + s->h + 5) && (shape.y + 5 >= s->y + s->h - 5) && (shape.x + shape.w >= s->x) && (shape.x <= s->x + s->w) && (viewDir == 0 || npc))
 		{
 			show = false;
-			SDL_Log("00000");
+			//SDL_Log("00000");
 		}
 
-		if (show == false)
+		if (show == false) 
+		{
+			shape.x = -20;
+			shape.y = -20;
 			return damage;
+		}
+			
 	}
 
 	return 0;

@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <cstdlib>
 #include "Enemy.h"
 #include "textureManager.h"
@@ -97,6 +98,39 @@ void Enemy::mapCollision()
 		movementDirFlags[2] = 0;
 }
 
+bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player)
+{
+	if (abs(shape.x - shell->x) < 200 && abs(shape.y - shell->y) < 200 && shell != NULL) //check if shell is nearby
+	{
+		if ((shellDir == 0 || shellDir == 180) && (shell->x - shell->w >= shape.x && shell->x <= shape.x + shape.w)) //potential vertical impact
+		{
+			movementDirFlags[0] = false;
+			movementDirFlags[2] = false;
+			//movementDirFlags[1] = true;
+			//movementDirFlags[3] = true;
+
+			if (viewDirection == 0 || viewDirection == 2) //set condition to change movement direction
+				movementContor = distanceToMove;
+		}
+		else if (shell->y - shell->w >= shape.y && shell->y <= shape.y + shape.h) //potential horizontal impact
+		{
+			movementDirFlags[1] = false;
+			movementDirFlags[3] = false;
+			//movementDirFlags[1] = true;
+			//movementDirFlags[3] = true;
+
+			if (viewDirection == 0 || viewDirection == 2)
+				movementContor = distanceToMove;
+		}
+	}
+	else if (1);
+		//shoot
+
+
+
+	return true;
+}
+
 void Enemy::enemyMovement() 
 {
 	if (movementContor >= distanceToMove || movementDirFlags[viewDirection / 90] == 0) 
@@ -171,5 +205,14 @@ void Enemy::getDmg(int dmg)
 	{
 		SDL_Log("destroyed\n");
 		alive = false;
+	}
+}
+
+void Enemy::checkIfCanDodge(int dir)
+{
+	bool dodge = false;
+	for (int i = 0; i < 4; i++) 
+	{
+		if (i != dir);
 	}
 }

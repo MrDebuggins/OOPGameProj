@@ -117,8 +117,8 @@ void level::lvlEventHandler(SDL_Event* e)
 {
 	if (player->inputHandler(e)) //shoot
 	{
-		SDL_Rect r = player->getHitBox();
-		projectiles[enemiesNr]->setExistFlag(true, player->getViewDir(), r.x, r.y);
+		SDL_Rect* r = player->getHitBox();
+		projectiles[enemiesNr]->setExistFlag(true, player->getViewDir(), r->x, r->y);
 	}
 	//
 	//
@@ -127,7 +127,7 @@ void level::lvlEventHandler(SDL_Event* e)
 	{
 		player->objsCollision(staticHitBoxes[i]);
 	}
-
+	
 	player->mapCollision();
 	player->move();
 
@@ -140,8 +140,8 @@ void level::lvlEventHandler(SDL_Event* e)
 		{
 			if (enemies[k] != NULL) 
 			{
-				SDL_Rect temp = enemies[k]->getHitBox("shell collision");
-				enemies[k]->getDmg(projectiles[i]->objCollision(&temp, true));
+				SDL_Rect tempRect = enemies[k]->getHitBox("shell collision");
+				enemies[k]->getDmg(projectiles[i]->objCollision(&tempRect, true));
 
 				if (enemies[k]->getState() == false) //destroy npc
 				{
@@ -168,6 +168,7 @@ void level::lvlEventHandler(SDL_Event* e)
 		if (enemies[i] != NULL) 
 		{
 			enemies[i]->mapCollision();
+			enemies[i]->behaviour(projectiles[enemiesNr]->getHitBox(), projectiles[enemiesNr]->getViewDir(), player->getHitBox());
 			for (int j = 0; j < objNr; j++)
 			{
 				enemies[i]->setDirFlags(staticHitBoxes[j]);  //verify directions by static obj's

@@ -43,7 +43,11 @@ bool Player::inputHandler(SDL_Event* e)
 			}
 			break;
 		case SDLK_SPACE:
-			shoot = true;
+			if (SDL_GetTicks() - lastShootTime >= 3500) 
+			{
+				shoot = true;
+				lastShootTime = SDL_GetTicks();
+			}
 			break;
 		default:
 			break;
@@ -71,6 +75,16 @@ bool Player::inputHandler(SDL_Event* e)
 			break;
 		default:
 			break;
+		}
+	}
+
+	if (shoot == false) //that is for shooting if button was in pressed state wehen gun reloaded (using SDL keyboard state)
+	{
+		const Uint8* keyStates = SDL_GetKeyboardState(NULL);
+		if (keyStates[SDL_SCANCODE_SPACE] && (SDL_GetTicks() - lastShootTime >= 3500))
+		{
+			shoot = true;
+			lastShootTime = SDL_GetTicks();
 		}
 	}
 
@@ -130,9 +144,9 @@ int Player::getViewDir()
 	return viewDirection;
 }
 
-SDL_Rect Player::getHitBox()
+SDL_Rect* Player::getHitBox()
 {
-	return shape;
+	return &shape;
 }
 
 void Player::getDmg(int dmg)

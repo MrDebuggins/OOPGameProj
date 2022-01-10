@@ -21,7 +21,7 @@ public:
 	void objsCollision(SDL_Rect r);
 	void mapCollision();
 	int getViewDir();
-	SDL_Rect getHitBox();
+	SDL_Rect* getHitBox();
 	void getDmg(int dmg);
 };
 
