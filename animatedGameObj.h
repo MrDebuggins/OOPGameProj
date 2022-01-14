@@ -6,7 +6,7 @@ protected:
 	SDL_Texture** texturesArray;
 
 	int velocity;
-	
+	int viewDirection;
 	int animID;
 
 public:
@@ -15,7 +15,7 @@ public:
 		texturesArray = NULL;
 
 		velocity = 2;
-		
+		viewDirection = 0;
 		animID = 0;
 	}
 

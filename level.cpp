@@ -59,6 +59,12 @@ void level::loadLvlData(SDL_Renderer* rend)
 	case 1:
 		objData.open("config/lvl1/lvl1_objs.txt");
 		break;
+	case 2:
+		objData.open("config/lvl2/lvl2_objs.txt");
+		break;
+	case 3:
+		objData.open("config/lvl3/lvl3_objs.txt");
+		break;
 	default:
 		break;
 	}
@@ -93,6 +99,12 @@ void level::loadLvlData(SDL_Renderer* rend)
 	case 1:
 		objData.open("config/lvl1/lvl1_enemies.txt");
 		break;
+	case 2:
+		objData.open("config/lvl2/lvl2_enemies.txt");
+		break;
+	case 3:
+		objData.open("config/lvl3/lvl3_enemies.txt");
+		break;
 	default:
 		break;
 	}
@@ -118,7 +130,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 		objData >> r.x >> r.y >> r.w >> r.h;
 		enemies[i]->setEnemyiHitBox(r);
 
-		enemies[i]->loadEnemyTexture(rend);
+		enemies[i]->loadTexture(rend);
 	}
 
 	projectiles[enemiesNr] = new projectile;
@@ -127,7 +139,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 
 	objData.close();
 
-	player->loadPlayerTextures(rend);
+	player->loadTextures(rend);
 }
 
 void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend) 
@@ -172,8 +184,7 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 					delete enemies[k];
 					enemies[k] = NULL;
 
-					effect* newExplo = new effect(false, tempRect.x, tempRect.y, rend, true);
-					explosions.push_front(newExplo);
+					explosions.push_front(new effect(false, tempRect.x - 10, tempRect.y - 10, rend, true));
 				}
 			}
 		}

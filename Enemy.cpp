@@ -4,7 +4,7 @@
 #include "textureManager.h"
 #include "Game.h"
 
-void Enemy::loadEnemyTexture(SDL_Renderer* rend) 
+void Enemy::loadTexture(SDL_Renderer* rend) 
 {
 	texturesArray = new SDL_Texture * [2];
 

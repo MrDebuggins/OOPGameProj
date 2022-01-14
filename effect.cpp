@@ -25,8 +25,16 @@ void effect::loadTexutres(SDL_Renderer* rend)
 		texturesArray[6] = textureManager::loadTexture("assets/png/effects/Explosion_G.png", rend);
 		texturesArray[7] = textureManager::loadTexture("assets/png/effects/Explosion_H.png", rend);
 
-		shape.w = 50;
-		shape.h = 50;
+		if (type) 
+		{
+			shape.w = 50;
+			shape.h = 50;
+		}
+		else 
+		{
+			shape.w = 70;
+			shape.h = 70;
+		}
 	//}
 }
 

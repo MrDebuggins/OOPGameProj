@@ -5,7 +5,7 @@ class entity : public animatedGameObj
 protected:
 	int xVelocity; 
 	int yVelocity;
-	int viewDirection;
+	//int viewDirection;
 	int HP;
 	int lastShootTime;
 
@@ -14,7 +14,7 @@ public:
 	{
 		xVelocity = 0;
 		yVelocity = 0;
-		viewDirection = 0;
+		//viewDirection = 0;
 		HP = 0;
 		lastShootTime = 0;
 	}
@@ -23,8 +23,10 @@ public:
 	{
 		xVelocity = NULL;
 		yVelocity = NULL;
-		viewDirection = NULL;
+		//viewDirection = NULL;
 		HP = NULL;
 	}
+
+	//virtual void loadTextures(SDL_Renderer* rend) = 0;
 };
 

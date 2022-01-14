@@ -126,7 +126,7 @@ void Player::draw(SDL_Renderer* rend)
 	textureManager::drawTexture(texturesArray[animID/5], NULL, rend, &shape, viewDirection);
 }
 
-void Player::loadPlayerTextures(SDL_Renderer* rend)
+void Player::loadTextures(SDL_Renderer* rend)
 {
 	texturesArray = new SDL_Texture * [2];
 	texturesArray[0] = textureManager::loadTexture("assets/png/1.png", rend);

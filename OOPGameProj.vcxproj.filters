@@ -28,6 +28,12 @@
     <Filter Include="assets\png\effects">
       <UniqueIdentifier>{ac27b537-69d0-4987-84e2-cfa04a5cc596}</UniqueIdentifier>
     </Filter>
+    <Filter Include="config\lvl2">
+      <UniqueIdentifier>{e51bbaed-0c0d-49ac-af98-bc5692aca0be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config\lvl3">
+      <UniqueIdentifier>{2fa0952b-ec5f-40e8-8c6e-8ee9ac9b5f7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\hello_world.bmp">
@@ -168,6 +174,42 @@
     <Image Include="assets\png\Block_1.png">
       <Filter>assets\png</Filter>
     </Image>
+    <Image Include="assets\png\continue.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\continue1.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\lvl1.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\lvl2.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\lvl3.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\lvl11.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\lvl21.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\lvl31.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\main_menu.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\main_menu1.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\quit.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\quit1.png">
+      <Filter>assets\png</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -204,6 +246,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pauseMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -244,10 +295,31 @@
     <ClInclude Include="effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pauseMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="config\lvl1\lvl1_objs.txt">
       <Filter>config\lvl1</Filter>
+    </Text>
+    <Text Include="config\lvl2\lvl2_enemies.txt">
+      <Filter>config\lvl2</Filter>
+    </Text>
+    <Text Include="config\lvl2\lvl2_objs.txt">
+      <Filter>config\lvl2</Filter>
+    </Text>
+    <Text Include="config\lvl3\lvl3_enemies.txt">
+      <Filter>config\lvl3</Filter>
+    </Text>
+    <Text Include="config\lvl3\lvl3_objs.txt">
+      <Filter>config\lvl3</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,7 @@ public:
 		alive = NULL;
 	}
 
-	void loadEnemyTexture(SDL_Renderer* rend);
+	void loadTexture(SDL_Renderer* rend);
 	void setEnemyiHitBox(SDL_Rect r);
 	void setEnemyLvl(int lvl);
 	int getEnemyLvl();

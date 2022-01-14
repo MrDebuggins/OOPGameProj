@@ -1,8 +1,10 @@
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
-//#include "Player.h"
 #include "level.h"
+//#include "menu.h"
+#include "mainMenu.h"
+#include "pauseMenu.h"
 
 
 class Game
@@ -12,10 +14,14 @@ class Game
 	bool running;
 
 	
-	level* lvl1 = NULL;
+	level* lvl = NULL;
 	SDL_Event event;
 	//Player* player;
 	
+	menu* pauseM;
+	menu* mainM;
+	mainMenu m;
+	pauseMenu p;
 
 public:
 	static const int screenWidth;

@@ -16,7 +16,7 @@ public:
 
 	bool inputHandler(SDL_Event* e);
 	void draw(SDL_Renderer* rend);
-	void loadPlayerTextures(SDL_Renderer* rend);
+	void loadTextures(SDL_Renderer* rend);
 	void move();
 	void objsCollision(SDL_Rect r);
 	void mapCollision();

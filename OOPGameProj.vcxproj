@@ -25,6 +25,8 @@
     <Image Include="assets\png\1.png" />
     <Image Include="assets\png\2.png" />
     <Image Include="assets\png\Block_1.png" />
+    <Image Include="assets\png\continue.png" />
+    <Image Include="assets\png\continue1.png" />
     <Image Include="assets\png\effects\Double_Shell.png" />
     <Image Include="assets\png\effects\Exhaust_Fire.png" />
     <Image Include="assets\png\effects\Explosion_A.png" />
@@ -56,6 +58,16 @@
     <Image Include="assets\png\grass_01.png" />
     <Image Include="assets\png\grass_02.png" />
     <Image Include="assets\png\LIGHT_1C.png" />
+    <Image Include="assets\png\lvl1.png" />
+    <Image Include="assets\png\lvl11.png" />
+    <Image Include="assets\png\lvl2.png" />
+    <Image Include="assets\png\lvl21.png" />
+    <Image Include="assets\png\lvl3.png" />
+    <Image Include="assets\png\lvl31.png" />
+    <Image Include="assets\png\main_menu.png" />
+    <Image Include="assets\png\main_menu1.png" />
+    <Image Include="assets\png\quit.png" />
+    <Image Include="assets\png\quit1.png" />
     <Image Include="assets\png\RIVET_1A.png" />
     <Image Include="assets\png\STEEL_1A.png" />
     <Image Include="assets\png\STONE_1A.png" />
@@ -75,6 +87,9 @@
     <ClCompile Include="gameObject.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="mainMenu.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="pauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="staticGameObj.cpp" />
@@ -89,6 +104,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="mainMenu.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="pauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="projectile.h" />
     <ClInclude Include="staticGameObj.h" />
@@ -96,6 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="config\lvl1\lvl1_objs.txt" />
+    <Text Include="config\lvl2\lvl2_enemies.txt" />
+    <Text Include="config\lvl2\lvl2_objs.txt" />
+    <Text Include="config\lvl3\lvl3_enemies.txt" />
+    <Text Include="config\lvl3\lvl3_objs.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config\lvl1\lvl1_enemies.txt" />
