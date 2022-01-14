@@ -156,4 +156,6 @@ void Player::getDmg(int dmg)
 	{
 		SDL_Log("you died\n");
 	}
+	if (dmg != 0)
+		SDL_Log("moslinu poimal\n");
 }

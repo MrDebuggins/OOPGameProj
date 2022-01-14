@@ -11,7 +11,7 @@ public:
 		shape = { 1,1,50,50 };
 		type = obgjTypePlayer;
 		velocity = 2;
-		HP = 3;
+		HP = 1000;
 	}
 
 	bool inputHandler(SDL_Event* e);

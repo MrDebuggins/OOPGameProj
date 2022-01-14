@@ -54,7 +54,7 @@ void Game::clear()
 
 void Game::update() 
 {
-	lvl1->lvlEventHandler(&event);
+	lvl1->lvlEventHandler(&event, renderer);
 }
 
 void Game::render() 

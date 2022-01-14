@@ -24,7 +24,7 @@ struct pos
 
 enum projectileTypes
 {
-	bullet,
-	plasma,
-	twoBullets,
+	bullet = 1,
+	plasma = 2,
+	twoBullets = 3,
 };

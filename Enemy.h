@@ -4,10 +4,14 @@
 class Enemy : public entity
 {
 	int enemyLvl = 1;
+
 	bool movementDirFlags[4] = {1,1,1,1};
 	int distanceToMove = 0;
 	int movementContor = 0;
+
 	bool alive = false;
+	bool canShoot = true;
+	//int timeFromLastShot = 0;
 
 public:
 	
@@ -33,14 +37,16 @@ public:
 	void setEnemyLvl(int lvl);
 	int getEnemyLvl();
 	void draw(SDL_Renderer* rend);
-	SDL_Rect getHitBox(const char* str);
+	SDL_Rect getHitBox();
 	void setDirFlags(SDL_Rect s);
 	void mapCollision();
-	bool behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player);
+	bool behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect* objs, int objsNr);
 	void enemyMovement();
 	void move();
 	void getDmg(int dmg);
 	bool getState() { return alive; }
 	void checkIfCanDodge(int dir);
+	bool checkDirForStaticObjs(SDL_Rect* s);
+	int getViewDir() { return viewDirection; }
 };
 

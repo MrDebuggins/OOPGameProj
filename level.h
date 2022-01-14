@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "projectile.h"
+#include "effect.h"
 
 class level
 {
@@ -20,6 +21,7 @@ class level
 
 	SDL_Rect* staticHitBoxes;
 
+	std::list<effect*> explosions;
 public:
 	level() 
 	{
@@ -39,8 +41,9 @@ public:
 
 	level(SDL_Renderer* rend, int id)
 	{
+
 		lvlID = id;
-		floorTexture = textureManager::loadTexture("assets/png/STEEL_1A.png", rend);
+		floorTexture = textureManager::loadTexture("assets/png/grass_02.png", rend);
 
 		player = new Player;
 		enemies = NULL;
@@ -65,6 +68,6 @@ public:
 	void loadLvlData(SDL_Renderer* rend);
 	void drawLvlFloor(SDL_Renderer* rend);
 	void drawLvlObjs(SDL_Renderer* rend);
-	void lvlEventHandler(SDL_Event* e);
+	void lvlEventHandler(SDL_Event* e, SDL_Renderer* rend);
 };
 

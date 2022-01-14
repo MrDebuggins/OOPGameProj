@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iterator>
 #include "level.h"
 #include "Game.h"
 
@@ -30,7 +31,23 @@ void level::drawLvlObjs(SDL_Renderer* rend)
 	}
 
 	player->draw(rend);
-	projectiles[enemiesNr]->draw(rend);
+
+	for (int i = 0; i <= enemiesNr; i++) 
+	{
+		projectiles[i]->draw(rend);
+	}
+
+	if (explosions.size() != 0) 
+	{
+			for (auto a : explosions) 
+			{
+				if (a->draw(rend)) 
+				{
+					explosions.pop_back();
+					break;
+				}
+			}	
+	}
 }
 
 void level::loadLvlData(SDL_Renderer* rend) 
@@ -59,9 +76,9 @@ void level::loadLvlData(SDL_Renderer* rend)
 		int j;								//choose what texture to load for this obj
 		objData >> j;
 		if (j == 1)
-			lvlObjsArray[i]->loadStaticObjTexture("assets/png/STONE_1B.png", rend);
+			lvlObjsArray[i]->loadStaticObjTexture("assets/png/FLOOR_1A.png", rend);
 		else
-			lvlObjsArray[i]->loadStaticObjTexture("assets/png/STONE_2B.png", rend);
+			lvlObjsArray[i]->loadStaticObjTexture("assets/png/FLOOR_1A.png", rend);
 
 		objData >> staticHitBoxes[i].x >> staticHitBoxes[i].y >> staticHitBoxes[i].w >> staticHitBoxes[i].h;
 
@@ -105,7 +122,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 	}
 
 	projectiles[enemiesNr] = new projectile;
-	projectiles[enemiesNr]->setType(0);
+	projectiles[enemiesNr]->setType(1);
 	projectiles[enemiesNr]->loadTexture(rend);
 
 	objData.close();
@@ -113,7 +130,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 	player->loadPlayerTextures(rend);
 }
 
-void level::lvlEventHandler(SDL_Event* e) 
+void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend) 
 {
 	if (player->inputHandler(e)) //shoot
 	{
@@ -127,6 +144,12 @@ void level::lvlEventHandler(SDL_Event* e)
 	{
 		player->objsCollision(staticHitBoxes[i]);
 	}
+	//player collision with enemies
+	for (int i = 0; i < enemiesNr; i++) 
+	{
+		if (enemies[i] != NULL)
+			player->objsCollision(enemies[i]->getHitBox());
+	}
 	
 	player->mapCollision();
 	player->move();
@@ -134,32 +157,50 @@ void level::lvlEventHandler(SDL_Event* e)
 	//
 	//
 	//shells collision
-	for (int i = 0; i <= enemiesNr; i++) 
+		//player's shell collision
+	if (projectiles[enemiesNr]->getExistFlag()) 
 	{
 		for (int k = 0; k < enemiesNr; k++) //with enmeies
 		{
-			if (enemies[k] != NULL) 
+			if (enemies[k] != NULL)
 			{
-				SDL_Rect tempRect = enemies[k]->getHitBox("shell collision");
-				enemies[k]->getDmg(projectiles[i]->objCollision(&tempRect, true));
+				SDL_Rect tempRect = enemies[k]->getHitBox();
+				enemies[k]->getDmg(projectiles[enemiesNr]->objCollision(&tempRect));
 
 				if (enemies[k]->getState() == false) //destroy npc
 				{
 					delete enemies[k];
 					enemies[k] = NULL;
+
+					effect* newExplo = new effect(false, tempRect.x, tempRect.y, rend, true);
+					explosions.push_front(newExplo);
 				}
 			}
 		}
 
 		for (int k = 0; k < objNr; k++) //with static obj's
 		{
-			projectiles[i]->objCollision(&staticHitBoxes[k], false);
+			projectiles[enemiesNr]->objCollision(&staticHitBoxes[k]);
 		}
+
+		projectiles[enemiesNr]->mapCollision();
+		projectiles[enemiesNr]->move();
 	}
+	//
+	//
+		//enemies shells collision
+	for (int i = 0; i < enemiesNr; i++) 
+	{
+		player->getDmg(projectiles[i]->objCollision(player->getHitBox()));
+		
+		for (int k = 0; k < objNr; k++) //with static obj's
+		{
+			projectiles[i]->objCollision(&staticHitBoxes[k]);
+		}
 
-	projectiles[enemiesNr]->mapCollision();
-	projectiles[enemiesNr]->move();
-
+		projectiles[i]->mapCollision();
+		projectiles[i]->move();
+	}
 	//
 	//
 	//enemies collision
@@ -168,17 +209,25 @@ void level::lvlEventHandler(SDL_Event* e)
 		if (enemies[i] != NULL) 
 		{
 			enemies[i]->mapCollision();
-			enemies[i]->behaviour(projectiles[enemiesNr]->getHitBox(), projectiles[enemiesNr]->getViewDir(), player->getHitBox());
+
 			for (int j = 0; j < objNr; j++)
 			{
 				enemies[i]->setDirFlags(staticHitBoxes[j]);  //verify directions by static obj's
 			}
 
+			if (enemies[i]->behaviour(projectiles[enemiesNr]->getHitBox(), projectiles[enemiesNr]->getViewDir(), player->getHitBox(), staticHitBoxes, objNr)) 
+			{
+				SDL_Rect temp = enemies[i]->getHitBox();
+				projectiles[i]->setExistFlag(true, enemies[i]->getViewDir(), temp.x, temp.y);
+			}
+
 			for (int k = 0; k < enemiesNr; k++)
 			{
 				if (k != i && enemies[k] != NULL)
-					enemies[i]->setDirFlags(enemies[k]->getHitBox("enemies collision"));  //verify directions by other NPC's
+					enemies[i]->setDirFlags(enemies[k]->getHitBox());  //verify directions by other NPC's
 			}
+
+			enemies[i]->setDirFlags(*player->getHitBox()); //verify directions by player
 
 			enemies[i]->enemyMovement();
 			enemies[i]->move();

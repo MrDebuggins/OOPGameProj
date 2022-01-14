@@ -35,23 +35,42 @@ bool projectile::getExistFlag()
 
 void projectile::loadTexture(SDL_Renderer* rend)
 {
-	projTexture = textureManager::loadTexture("assets/png/effects/Heavy_Shell.png", rend);
+	switch (type)
+	{
+	case bullet:
+		projTexture = textureManager::loadTexture("assets/png/effects/Heavy_Shell.png", rend);
+		break;
+	case plasma:
+		projTexture = textureManager::loadTexture("assets/png/effects/Plasma.png", rend);
+		break;
+	case twoBullets:
+		projTexture = textureManager::loadTexture("assets/png/effects/Double_Shell.png", rend);
+		break;
+	default:
+		break;
+	}
+
+	shellEffect = new effect(true, -300, -300, rend, false);
 }
 
 void projectile::setType(int type)
 {
+	this->type = (projectileTypes)type;
 	switch (type)
 	{
 	case bullet:
+		//type = bullet;
 		velocity = 6;
 		damage = 1;
 		break;
 	case twoBullets:
+		//type = twoBullets;
 		velocity = 4;
 		damage = 3;
 		break;
 	case plasma:
-		velocity = 6;
+		//type = plasma;
+		velocity = 10;
 		damage = 2;
 		break;
 	default:
@@ -59,49 +78,71 @@ void projectile::setType(int type)
 	}
 }
 
-void projectile::mapCollision()
-{
-	if ((shape.y <= 1) || (shape.y >= Game::screenHeight - 1 - shape.h))
-		show = false;//kaboom
-	if ((shape.x <= 1) || (shape.x >= Game::screenWidth - 1 - shape.w))
-		show = false;//kaboom
-}
-
-int projectile::objCollision(SDL_Rect* s, bool npc)
+bool projectile::mapCollision()
 {
 	if (show == true) 
 	{
-		if ((shape.x + shape.h >= s->x - 5) && (shape.x + shape.h <= s->x + 5) && (shape.y + 5 + shape.w >= s->y) && (shape.y + 5 <= s->y + s->h) && (viewDir == 90 || npc))
+		if ((shape.y <= 1) || (shape.y >= Game::screenHeight - 1 - shape.h))
+			show = false;
+		if ((shape.x <= 1) || (shape.x >= Game::screenWidth - 1 - shape.w))
+			show = false;
+
+		if (show == false)
+		{
+			shellEffect->activate(shape.x - 20, shape.y - 18);
+			shape.x = 1500;
+			shape.y = 900;
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+int projectile::objCollision(SDL_Rect* s)
+{
+	if (show == true) 
+	{
+		if ((shape.x + shape.h >= s->x - 5) && (shape.x + shape.h <= s->x + 5) && (shape.y + 5 + shape.w >= s->y) && (shape.y + 5 <= s->y + s->h) && (viewDir == 90))
 		{
 			show = false;
 			//SDL_Log("11111");
 		}
-		else if ((shape.x <= s->x + s->w + 5) && (shape.x >= s->x + s->w - 5) && (shape.y + 5 >= s->y - shape.w) && (shape.y + 5 <= s->y + s->h) && (viewDir == 270 || npc))
+		else if ((shape.x <= s->x + s->w + 5) && (shape.x >= s->x + s->w - 5) && (shape.y + 5 >= s->y - shape.w) && (shape.y + 5 <= s->y + s->h) && (viewDir == 270))
 		{
 			show = false;
 			//SDL_Log("33333");
 		}
-		else if ((shape.y + shape.h >= s->y - 5) && (shape.y + shape.h <= s->y + 5) && (shape.x >= s->x - shape.w) && (shape.x <= s->x + s->w) && (viewDir == 180 || npc))
+		else if ((shape.y + shape.h >= s->y - 5) && (shape.y + shape.h <= s->y + 5) && (shape.x >= s->x - shape.w) && (shape.x <= s->x + s->w) && (viewDir == 180))
 		{
 			show = false;
 			//SDL_Log("22222");
 		}
-		else if ((shape.y <= s->y + s->h + 5) && (shape.y + 5 >= s->y + s->h - 5) && (shape.x + shape.w >= s->x) && (shape.x <= s->x + s->w) && (viewDir == 0 || npc))
+		else if ((shape.y <= s->y + s->h + 5) && (shape.y + 5 >= s->y + s->h - 5) && (shape.x + shape.w >= s->x) && (shape.x <= s->x + s->w) && (viewDir == 0))
 		{
 			show = false;
 			//SDL_Log("00000");
 		}
+		else if ((shape.x >= s->x) && (shape.y >= s->y) && (shape.x <= s->x + s->w) && (shape.y <= s->y + s->h) && (viewDir == 0 || viewDir == 180)) 
+		{
+			show = false;
+		}
+		else if ((shape.x - 5 >= s->x) && (shape.y + 5 >= s->y) && (shape.x - 5 <= s->x + s->w) && (shape.y +5 <= s->y + s->h) && (viewDir == 90 || viewDir == 270)) 
+		{
+			show = false;
+		}
 
 		if (show == false) 
 		{
-			shape.x = -20;
-			shape.y = -20;
+			shellEffect->activate(shape.x - 20, shape.y - 18);
+			shape.x = 1500;
+			shape.y = 900;
 			return damage;
 		}
 			
 	}
 
-	return 0;
+	return false;
 }
 
 void projectile::move()
@@ -130,6 +171,10 @@ void projectile::move()
 
 void projectile::draw(SDL_Renderer* rend)
 {
-	if (show == true)
+	if (show == true) 
+	{
 		textureManager::drawTexture(projTexture, NULL, rend, &shape, viewDir);
+	}
+
+	shellEffect->draw(rend);
 }

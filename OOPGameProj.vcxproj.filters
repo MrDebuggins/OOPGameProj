@@ -156,6 +156,18 @@
     <Image Include="assets\png\effects\Sniper_Shell.png">
       <Filter>assets\png\effects</Filter>
     </Image>
+    <Image Include="assets\png\effects\Double_Shell.png">
+      <Filter>assets\png\effects</Filter>
+    </Image>
+    <Image Include="assets\png\grass_01.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\grass_02.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\Block_1.png">
+      <Filter>assets\png</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -191,6 +203,9 @@
     <ClCompile Include="entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="effect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -224,6 +239,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="effect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

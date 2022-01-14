@@ -65,9 +65,8 @@ void Enemy::draw(SDL_Renderer* rend)
 	textureManager::drawTexture(texturesArray[animID / 5], NULL, rend, &shape, viewDirection);
 }
 
-SDL_Rect Enemy::getHitBox(const char* str) 
+SDL_Rect Enemy::getHitBox() 
 {
-	//SDL_Log(str);
 	return shape;
 }
 
@@ -98,37 +97,139 @@ void Enemy::mapCollision()
 		movementDirFlags[2] = 0;
 }
 
-bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player)
+bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect* objs, int objsNr)
 {
+	if (SDL_GetTicks() - lastShootTime >= 3500) //cannon reloaded
+	{
+		canShoot = true;
+	}
+
 	if (abs(shape.x - shell->x) < 200 && abs(shape.y - shell->y) < 200 && shell != NULL) //check if shell is nearby
 	{
 		if ((shellDir == 0 || shellDir == 180) && (shell->x - shell->w >= shape.x && shell->x <= shape.x + shape.w)) //potential vertical impact
 		{
 			movementDirFlags[0] = false;
 			movementDirFlags[2] = false;
-			//movementDirFlags[1] = true;
-			//movementDirFlags[3] = true;
 
 			if (viewDirection == 0 || viewDirection == 2) //set condition to change movement direction
 				movementContor = distanceToMove;
 		}
-		else if (shell->y - shell->w >= shape.y && shell->y <= shape.y + shape.h) //potential horizontal impact
+		else if ((shellDir == 90 || shellDir == 270) && (viewDirection == 90 || viewDirection == 270) && shell->y - shell->w >= shape.y && shell->y <= shape.y + shape.h) //potential horizontal impact
 		{
 			movementDirFlags[1] = false;
 			movementDirFlags[3] = false;
-			//movementDirFlags[1] = true;
-			//movementDirFlags[3] = true;
 
 			if (viewDirection == 0 || viewDirection == 2)
 				movementContor = distanceToMove;
 		}
+		else if ((shellDir == 90 || shellDir == 270) && !(shell->y - shell->w >= shape.y || shell->y <= shape.y + shape.h)) 
+		{
+			movementDirFlags[0] = false;
+			movementDirFlags[2] = false;
+			
+		}
 	}
-	else if (1);
-		//shoot
+	else if(canShoot == true) //check if can shoot
+	{
+		if ((shape.y + shape.w >= (player->y + 25)) && (shape.y <= (player->y + player->h - 25))) //player is left or right
+		{
+			if (shape.x > player->x) //player is on left side
+			{
 
+				bool freeTraiectory = true;
+				for (int i = 0; i < objsNr; i++) //check for objs between player and enemy
+				{
+					if ((shape.y + shape.w >= objs[i].y) && (shape.y <= objs[i].y + objs[i].h) && (player->x < objs[i].x < shape.x)) 
+					{
+						freeTraiectory = false;
+						break;
+					}
+				}
+				if (freeTraiectory && canShoot && movementDirFlags[3])  //shoot
+				{
+					//SDL_Log("shoot left\n");
+					canShoot = false;
+					lastShootTime = SDL_GetTicks();
+					viewDirection = 270;
+					xVelocity = -velocity;
+					yVelocity = 0;
+					return true;
+				}
+				
+			}
+			else //player is on right side
+			{
+				bool freeTraiectory = true;
+				for (int i = 0; i < objsNr; i++) ////check for objs between player and enemy
+				{
+					if ((shape.y + shape.w >= objs[i].y) && (shape.y <= objs[i].y + objs[i].h) && (shape.x < objs[i].x < player->x))
+					{
+						freeTraiectory = false;
+						break;
+					}
+				}
+				if (freeTraiectory && canShoot && movementDirFlags[1]) //shoot
+				{
+					//SDL_Log("shoot right\n");
+					canShoot = false;
+					lastShootTime = SDL_GetTicks();
+					viewDirection = 90;
+					xVelocity = velocity;
+					yVelocity = 0;
+					return true;
+				}
+			}
+		}
+		else if ((shape.x + shape.w >= (player->x + 25)) && (shape.x <= (player->x + player->w - 25))) //player is above or below
+		{
+			if(shape.y > player->y) //player is above
+			{
+				bool freeTraiectory = true;
+				for (int i = 0; i < objsNr; i++) 
+				{
+					if ((shape.x + shape.w >= objs[i].x) && (shape.x <= objs[i].x + objs[i].w) && (player->x < objs[i].x < shape.x))
+					{
+						freeTraiectory = false;
+						break;
+					}
+				}
+				if (freeTraiectory && canShoot && movementDirFlags[0]) 
+				{
+					//SDL_Log("shoot above\n");
+					canShoot = false;
+					lastShootTime = SDL_GetTicks();
+					viewDirection = 0;
+					xVelocity = 0;
+					yVelocity = -velocity;
+					return true;
+				}
+			}
+			else //player is below
+			{
+				bool freeTraiectory = true;
+				for (int i = 0; i < objsNr; i++)
+				{
+					if ((shape.y + shape.w >= objs[i].y + 15) && (shape.y <= objs[i].y + objs[i].h) && (shape.x < objs[i].x < player->x))
+					{
+						freeTraiectory = false;
+						break;
+					}
+				}
+				if (freeTraiectory && canShoot && movementDirFlags[2])
+				{
+					//SDL_Log("shoot below\n");
+					canShoot = false;
+					lastShootTime = SDL_GetTicks();
+					viewDirection = 180;
+					xVelocity = 0;
+					yVelocity = velocity;
+					return true;
+				}
+			}
+		}
+	}
 
-
-	return true;
+	return false;
 }
 
 void Enemy::enemyMovement() 
@@ -142,7 +243,7 @@ void Enemy::enemyMovement()
 		int dir = rand() % 4;
 		if (movementDirFlags[dir] == false) //use % for less control statements!
 		{
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 5; i++)
 			{
 				if (dir == 3)
 					dir = 0;
@@ -215,4 +316,9 @@ void Enemy::checkIfCanDodge(int dir)
 	{
 		if (i != dir);
 	}
+}
+
+bool Enemy::checkDirForStaticObjs(SDL_Rect* s)
+{
+	return false;
 }

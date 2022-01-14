@@ -14,5 +14,14 @@ SDL_Texture* textureManager::loadTexture(const char* path, SDL_Renderer* rend)
 
 void textureManager::drawTexture(SDL_Texture* source, SDL_Rect* dest, SDL_Renderer* rend, SDL_Rect* shape, int angle) 
 {
-	SDL_RenderCopyEx(rend, source, NULL, shape, angle, NULL, SDL_FLIP_NONE);
+	try
+	{
+		SDL_RenderCopyEx(rend, source, NULL, shape, angle, NULL, SDL_FLIP_NONE);
+	}
+	catch (const std::exception&)
+	{
+		SDL_Log("SDL_Error: %s", SDL_GetError());
+	}
+	
+	//SDL_Log("SDL_Error: %s", SDL_GetError());
 }
