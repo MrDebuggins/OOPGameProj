@@ -4,9 +4,9 @@
 #include "effect.h"
 class projectile : public animatedGameObj
 {
-	SDL_Texture* projTexture = NULL;
+	SDL_Texture* projTexture;
 	projectileTypes type;
-	bool show = 0;
+	bool show;
 	int damage;
 	int viewDir;
 
@@ -15,17 +15,17 @@ public:
 	projectile() 
 	{
 		projTexture = NULL;
-		this->viewDir = 0;
+		viewDir = 0;
 		type = bullet;
 		shape = { -300,-300,6,16 };
 		damage = 0;
 		shellEffect = NULL;
+		show = false;
 	}
 	~projectile() 
 	{
-		delete projTexture;
+		SDL_DestroyTexture(projTexture);
 		delete shellEffect;
-		animatedGameObj::~animatedGameObj();
 	}
 
 	void setExistFlag(bool f, int viewDir, int posx, int posy);

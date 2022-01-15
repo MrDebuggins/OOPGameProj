@@ -29,7 +29,14 @@ void Enemy::loadTexture(SDL_Renderer* rend)
 
 void Enemy::setEnemyiHitBox(SDL_Rect r) 
 {
-	shape = r;
+	if (r.x < 0 || r.x > 1150 || r.y < 0 || r.y > 600)
+	{
+		SDL_Log("Invalid enemy position! Config files corrupted!\n");
+		shape.x, shape.y = 200;
+	}
+
+	shape.x = r.x;
+	shape.y = r.y;
 }
 
 void Enemy::setEnemyLvl(int lvl)
@@ -40,17 +47,20 @@ void Enemy::setEnemyLvl(int lvl)
 	{
 	case 1:
 		velocity = 2;
-		HP = 2;
+		HP = 4;
 		break;
 	case 2:
 		velocity = 3;
-		HP = 2;
+		HP = 4;
 		break;
 	case 3:
 		velocity = 1;
-		HP = 4;
+		HP = 8;
 		break;
 	default:
+		SDL_Log("Wrong NPC level! Config files corrupted!\n");
+		velocity = 2;
+		HP = 4;
 		break;
 	}
 }
@@ -86,7 +96,7 @@ void Enemy::setDirFlags(SDL_Rect s)
 
 void Enemy::mapCollision() 
 {
-	//verify allowed movement directions by level borders (don't forgorr to optimaze map collisions)
+	//verify allowed movement directions by level borders
 	if (shape.x <= 5)
 		movementDirFlags[3] = 0;
 	if (shape.x >= Game::screenWidth - 71)
@@ -122,7 +132,7 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 			if (viewDirection == 0 || viewDirection == 2)
 				movementContor = distanceToMove;
 		}
-		else if ((shellDir == 90 || shellDir == 270) && !(shell->y - shell->w >= shape.y || shell->y <= shape.y + shape.h)) 
+		else if ((shellDir == 90 || shellDir == 270) && !(shell->y - shell->w >= shape.y || shell->y <= shape.y + shape.h)) //dodge if comes from side
 		{
 			movementDirFlags[0] = false;
 			movementDirFlags[2] = false;
@@ -139,7 +149,7 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				bool freeTraiectory = true;
 				for (int i = 0; i < objsNr; i++) //check for objs between player and enemy
 				{
-					if ((shape.y + shape.w >= objs[i].y) && (shape.y <= objs[i].y + objs[i].h) && (player->x < objs[i].x < shape.x)) 
+					if ((shape.y + shape.w >= objs[i].y) && (shape.y <= objs[i].y + objs[i].h) && (player->x < objs[i].x) && (objs[i].x < shape.x)) 
 					{
 						freeTraiectory = false;
 						break;
@@ -147,7 +157,6 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				}
 				if (freeTraiectory && canShoot && movementDirFlags[3])  //shoot
 				{
-					//SDL_Log("shoot left\n");
 					canShoot = false;
 					lastShootTime = SDL_GetTicks();
 					viewDirection = 270;
@@ -162,7 +171,7 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				bool freeTraiectory = true;
 				for (int i = 0; i < objsNr; i++) ////check for objs between player and enemy
 				{
-					if ((shape.y + shape.w >= objs[i].y) && (shape.y <= objs[i].y + objs[i].h) && (shape.x < objs[i].x < player->x))
+					if ((shape.y + shape.w >= objs[i].y) && (shape.y <= objs[i].y + objs[i].h) && (shape.x < objs[i].x) && (objs[i].x < player->x))
 					{
 						freeTraiectory = false;
 						break;
@@ -170,7 +179,6 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				}
 				if (freeTraiectory && canShoot && movementDirFlags[1]) //shoot
 				{
-					//SDL_Log("shoot right\n");
 					canShoot = false;
 					lastShootTime = SDL_GetTicks();
 					viewDirection = 90;
@@ -187,7 +195,7 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				bool freeTraiectory = true;
 				for (int i = 0; i < objsNr; i++) 
 				{
-					if ((shape.x + shape.w >= objs[i].x) && (shape.x <= objs[i].x + objs[i].w) && (player->x < objs[i].x < shape.x))
+					if ((shape.x + shape.w >= objs[i].x) && (shape.x <= objs[i].x + objs[i].w) && (player->y < objs[i].y) && (objs[i].y < shape.y))
 					{
 						freeTraiectory = false;
 						break;
@@ -195,7 +203,6 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				}
 				if (freeTraiectory && canShoot && movementDirFlags[0]) 
 				{
-					//SDL_Log("shoot above\n");
 					canShoot = false;
 					lastShootTime = SDL_GetTicks();
 					viewDirection = 0;
@@ -209,7 +216,7 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				bool freeTraiectory = true;
 				for (int i = 0; i < objsNr; i++)
 				{
-					if ((shape.y + shape.w >= objs[i].y + 15) && (shape.y <= objs[i].y + objs[i].h) && (shape.x < objs[i].x < player->x))
+					if ((shape.y + shape.w >= objs[i].y + 15) && (shape.y <= objs[i].y + objs[i].h) && (shape.y < objs[i].y) && (objs[i].y < player->y))
 					{
 						freeTraiectory = false;
 						break;
@@ -217,7 +224,6 @@ bool Enemy::behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect*
 				}
 				if (freeTraiectory && canShoot && movementDirFlags[2])
 				{
-					//SDL_Log("shoot below\n");
 					canShoot = false;
 					lastShootTime = SDL_GetTicks();
 					viewDirection = 180;
@@ -239,9 +245,9 @@ void Enemy::enemyMovement()
 		xVelocity = 0;
 		yVelocity = 0;
 
-		//set a random direction and distance to move
+		//set a random allowed direction and distance to move
 		int dir = rand() % 4;
-		if (movementDirFlags[dir] == false) //use % for less control statements!
+		if (movementDirFlags[dir] == false)
 		{
 			for (int i = 0; i < 5; i++)
 			{
@@ -304,21 +310,6 @@ void Enemy::getDmg(int dmg)
 	HP = HP - dmg;
 	if (HP <= 0) 
 	{
-		SDL_Log("destroyed\n");
 		alive = false;
 	}
-}
-
-void Enemy::checkIfCanDodge(int dir)
-{
-	bool dodge = false;
-	for (int i = 0; i < 4; i++) 
-	{
-		if (i != dir);
-	}
-}
-
-bool Enemy::checkDirForStaticObjs(SDL_Rect* s)
-{
-	return false;
 }

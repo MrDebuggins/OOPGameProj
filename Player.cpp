@@ -6,7 +6,7 @@ bool Player::inputHandler(SDL_Event* e)
 {
 	bool shoot = false;
 
-	if (e->type == SDL_KEYDOWN && e->key.repeat == 0)
+	if (e->type == SDL_KEYDOWN && e->key.repeat == 0) // key pressed
 	{
 		switch (e->key.keysym.sym)
 		{
@@ -53,7 +53,7 @@ bool Player::inputHandler(SDL_Event* e)
 			break;
 		}
 	}
-	else if (e->type == SDL_KEYUP && e->key.repeat == 0)
+	else if (e->type == SDL_KEYUP && e->key.repeat == 0) // key released
 	{
 		switch (e->key.keysym.sym)
 		{
@@ -100,17 +100,21 @@ bool Player::inputHandler(SDL_Event* e)
 	return shoot;
 }
 
-void Player::objsCollision(SDL_Rect r)
+bool Player::objsCollision(SDL_Rect r)
 {
-	//static game objects collision detection (is verifying for every side os the static object)
-	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 1) && (shape.x + shape.h < r.x + 3) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
+	//static game objects collision detection 
+	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 1) && (shape.x + shape.h < r.x + 1) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
 		xVelocity = 0;
-	if ((xVelocity < 0) && (shape.x <= r.x + r.w + 1) && (shape.x > r.x + r.w - 3) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
+	if ((xVelocity < 0) && (shape.x <= r.x + r.w + 1) && (shape.x > r.x + r.w - 1) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
 		xVelocity = 0;
-	if ((yVelocity > 0) && (shape.y + shape.h >= r.y - 1) && (shape.y < r.y + 3) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
+	if ((yVelocity > 0) && (shape.y + shape.h >= r.y - 1) && (shape.y < r.y + 1) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
 		yVelocity = 0;
-	if ((yVelocity < 0) && (shape.y <= r.y + r.h + 1) && (shape.y > r.y + r.h - 3) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
+	if ((yVelocity < 0) && (shape.y <= r.y + r.h + 1) && (shape.y > r.y + r.h - 1) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
 		yVelocity = 0;
+
+	if (HP <= 0)
+		return true;
+	return false;
 }
 
 void Player::mapCollision()
@@ -124,6 +128,12 @@ void Player::mapCollision()
 void Player::draw(SDL_Renderer* rend) 
 {
 	textureManager::drawTexture(texturesArray[animID/5], NULL, rend, &shape, viewDirection);
+
+	if(HP >= 0 && HP < 5)
+	{
+		SDL_Rect r = { 0, 620, 70,30 };
+		textureManager::drawTexture(HPtextures[HP], NULL, rend, &r, 0);
+	}
 }
 
 void Player::loadTextures(SDL_Renderer* rend)
@@ -131,6 +141,13 @@ void Player::loadTextures(SDL_Renderer* rend)
 	texturesArray = new SDL_Texture * [2];
 	texturesArray[0] = textureManager::loadTexture("assets/png/1.png", rend);
 	texturesArray[1] = textureManager::loadTexture("assets/png/2.png", rend);
+
+	HPtextures = new SDL_Texture * [5];
+	HPtextures[0] = textureManager::loadTexture("assets/png/hp0.png", rend);
+	HPtextures[1] = textureManager::loadTexture("assets/png/hp1.png", rend);
+	HPtextures[2] = textureManager::loadTexture("assets/png/hp2.png", rend);
+	HPtextures[3] = textureManager::loadTexture("assets/png/hp3.png", rend);
+	HPtextures[4] = textureManager::loadTexture("assets/png/hp4.png", rend);
 }
 
 void Player::move() 
@@ -152,10 +169,4 @@ SDL_Rect* Player::getHitBox()
 void Player::getDmg(int dmg)
 {
 	HP = HP - dmg;
-	if (HP <= 0) 
-	{
-		SDL_Log("you died\n");
-	}
-	if (dmg != 0)
-		SDL_Log("moslinu poimal\n");
 }

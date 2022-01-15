@@ -12,6 +12,7 @@ class level
 	int lvlID;
 	int objNr;
 	int enemiesNr;
+	int enemiesCounter;
 
 	SDL_Texture* floorTexture;
 	staticGameObj** lvlObjsArray;
@@ -37,6 +38,7 @@ public:
 
 		objNr = 0;
 		enemiesNr = 0;
+		enemiesCounter = 0;
 	}
 
 	level(SDL_Renderer* rend, int id)
@@ -52,22 +54,45 @@ public:
 
 	~level() 
 	{
+		SDL_DestroyTexture(floorTexture);
 		floorTexture = NULL;
+
+		for (int i = 0; i < objNr; i++) 
+		{
+			delete lvlObjsArray[i];
+		}
 		delete[] lvlObjsArray;
 		lvlObjsArray = NULL;
 
 		delete player;
 		player = NULL;
 
+		for (int i = 0; i < enemiesNr; i++) 
+		{
+			delete enemies[i];
+		}
 		delete[] enemies;
+
+		for (int i = 0; i <= enemiesNr; i++) 
+		{
+			delete projectiles[i];
+		}
+		delete[] projectiles;
 
 		delete[] staticHitBoxes;
 		staticHitBoxes = NULL;
+
+		for (auto a : explosions) 
+		{
+			a->~effect();
+		}
+		explosions.clear();
 	}
 
 	void loadLvlData(SDL_Renderer* rend);
 	void drawLvlFloor(SDL_Renderer* rend);
 	void drawLvlObjs(SDL_Renderer* rend);
-	void lvlEventHandler(SDL_Event* e, SDL_Renderer* rend);
+	int lvlEventHandler(SDL_Event* e, SDL_Renderer* rend);
+	int getID() { return lvlID; }
 };
 

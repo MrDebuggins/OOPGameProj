@@ -19,10 +19,10 @@ public:
 
 	~effect() 
 	{
-		type = NULL;
-		SDL_Log("effect destructor");
-		animatedGameObj::~animatedGameObj();
-		
+		for (int i = 0; i < 8; i++) 
+		{
+			SDL_DestroyTexture(texturesArray[i]);
+		}
 	}
 
 	void loadTexutres(SDL_Renderer* rend);

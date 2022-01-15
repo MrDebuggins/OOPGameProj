@@ -3,18 +3,6 @@
 
 void effect::loadTexutres(SDL_Renderer* rend)
 {
-	//if (type) 
-	//{
-	//	texturesArray = new SDL_Texture*[3];
-	//	texturesArray[0] = textureManager::loadTexture("assets/png/effects/Explosion_A.png", rend);
-	//	texturesArray[1] = textureManager::loadTexture("assets/png/effects/Explosion_B.png", rend);
-	//	texturesArray[2] = textureManager::loadTexture("assets/png/effects/Explosion_C.png", rend);
-
-	//	shape.w = 50;
-	//	shape.h = 50;
-	//}
-	//else 
-	//{
 		texturesArray = new SDL_Texture * [8];
 		texturesArray[0] = textureManager::loadTexture("assets/png/effects/Explosion_A.png", rend);
 		texturesArray[1] = textureManager::loadTexture("assets/png/effects/Explosion_B.png", rend);
@@ -25,17 +13,16 @@ void effect::loadTexutres(SDL_Renderer* rend)
 		texturesArray[6] = textureManager::loadTexture("assets/png/effects/Explosion_G.png", rend);
 		texturesArray[7] = textureManager::loadTexture("assets/png/effects/Explosion_H.png", rend);
 
-		if (type) 
+		if (type) //hit box for enemies explosion
 		{
 			shape.w = 50;
 			shape.h = 50;
 		}
-		else 
+		else //hitbox for shell explosion
 		{
 			shape.w = 70;
 			shape.h = 70;
 		}
-	//}
 }
 
 bool effect::draw(SDL_Renderer* rend)
@@ -46,13 +33,13 @@ bool effect::draw(SDL_Renderer* rend)
 
 		animID++;
 
-		if ((type == true) && (animID == 14)) 
+		if ((type == true) && (animID == 14)) //set animID for shell explosions
 		{
 			animID = 0;
 			active = false;
 			return true;
 		}
-		else if ((type == false) && (animID == 39)) 
+		else if ((type == false) && (animID == 39)) //set animID for enemies explosions
 		{
 			animID = 0;
 			active = false;

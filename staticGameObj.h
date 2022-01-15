@@ -12,6 +12,7 @@ public:
 
 	~staticGameObj() 
 	{
+		SDL_DestroyTexture(objTexture);
 		objTexture = NULL;
 	}
 

@@ -2,7 +2,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "level.h"
-//#include "menu.h"
 #include "mainMenu.h"
 #include "pauseMenu.h"
 
@@ -13,10 +12,8 @@ class Game
 	SDL_Renderer* renderer;
 	bool running;
 
-	
 	level* lvl = NULL;
 	SDL_Event event;
-	//Player* player;
 	
 	menu* pauseM;
 	menu* mainM;
@@ -32,14 +29,17 @@ public:
 		window = NULL;
 		renderer = NULL;
 		running = false;
-		//player = NULL;
+		
+		lvl = NULL;
+
+		pauseM = NULL;
+		mainM = NULL;
 	}
 
 	bool isRunning() 
 	{
 		return running;
 	}
-
 	void initGame(const char title[], int pos_x, int pos_y, SDL_WindowFlags windowFlags);
 	void eventHandler();
 	void update();

@@ -23,8 +23,6 @@ public:
 	{
 		delete[] texturesArray;
 		texturesArray = NULL;
-		velocity = NULL;
-		animID = NULL;
 	}
 };
 

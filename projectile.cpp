@@ -7,7 +7,7 @@ void projectile::setExistFlag(bool f, int viewDir, int posx, int posy)
 	show = f;
 	this->viewDir = viewDir;
 
-	switch (viewDir)
+	switch (viewDir) // chek view direction
 	{
 	case 0:
 		shape.x = posx + 22;
@@ -59,21 +59,21 @@ void projectile::setType(int type)
 	switch (type)
 	{
 	case bullet:
-		//type = bullet;
 		velocity = 6;
-		damage = 1;
+		damage = 2;
 		break;
 	case twoBullets:
-		//type = twoBullets;
 		velocity = 4;
-		damage = 3;
+		damage = 4;
 		break;
 	case plasma:
-		//type = plasma;
-		velocity = 10;
+		velocity = 8;
 		damage = 2;
 		break;
 	default:
+		SDL_Log("Wrong projectile type! Config files corrupted!\n");
+		velocity = 6;
+		damage = 2;
 		break;
 	}
 }
@@ -87,10 +87,10 @@ bool projectile::mapCollision()
 		if ((shape.x <= 1) || (shape.x >= Game::screenWidth - 1 - shape.w))
 			show = false;
 
-		if (show == false)
+		if (show == false) // explode
 		{
 			shellEffect->activate(shape.x - 20, shape.y - 18);
-			shape.x = 1500;
+			shape.x = 1500; //hide shell
 			shape.y = 900;
 			return true;
 		}
@@ -103,26 +103,24 @@ int projectile::objCollision(SDL_Rect* s)
 {
 	if (show == true) 
 	{
+		// chek if colided with top
 		if ((shape.x + shape.h >= s->x - 5) && (shape.x + shape.h <= s->x + 5) && (shape.y + 5 + shape.w >= s->y) && (shape.y + 5 <= s->y + s->h) && (viewDir == 90))
 		{
 			show = false;
-			//SDL_Log("11111");
 		}
 		else if ((shape.x <= s->x + s->w + 5) && (shape.x >= s->x + s->w - 5) && (shape.y + 5 >= s->y - shape.w) && (shape.y + 5 <= s->y + s->h) && (viewDir == 270))
 		{
 			show = false;
-			//SDL_Log("33333");
 		}
 		else if ((shape.y + shape.h >= s->y - 5) && (shape.y + shape.h <= s->y + 5) && (shape.x >= s->x - shape.w) && (shape.x <= s->x + s->w) && (viewDir == 180))
 		{
 			show = false;
-			//SDL_Log("22222");
 		}
 		else if ((shape.y <= s->y + s->h + 5) && (shape.y + 5 >= s->y + s->h - 5) && (shape.x + shape.w >= s->x) && (shape.x <= s->x + s->w) && (viewDir == 0))
 		{
 			show = false;
-			//SDL_Log("00000");
 		}
+		// check if colided with side 
 		else if ((shape.x >= s->x) && (shape.y >= s->y) && (shape.x <= s->x + s->w) && (shape.y <= s->y + s->h) && (viewDir == 0 || viewDir == 180)) 
 		{
 			show = false;
@@ -134,8 +132,8 @@ int projectile::objCollision(SDL_Rect* s)
 
 		if (show == false) 
 		{
-			shellEffect->activate(shape.x - 20, shape.y - 18);
-			shape.x = 1500;
+			shellEffect->activate(shape.x - 20, shape.y - 18); //explode
+			shape.x = 1500; //hide shell
 			shape.y = 900;
 			return damage;
 		}

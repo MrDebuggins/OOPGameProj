@@ -1,6 +1,4 @@
 #include "Game.h"
-//#include "pauseMenu.h"
-//#include "mainMenu.h"
 
 const int Game::screenWidth = 1200;
 const int Game::screenHeight = 650;
@@ -41,14 +39,13 @@ void Game::initGame(const char title[], int pos_x, int pos_y, SDL_WindowFlags wi
 void Game::eventHandler() 
 {
 	SDL_PollEvent(&event);
-	if (event.type == SDL_QUIT) 
+	if (event.type == SDL_QUIT) //if quit
 	{
 		running = false;
 	}
-	else if ((event.type == SDL_KEYDOWN) && (event.key.repeat == 0) && (event.key.keysym.sym == SDLK_ESCAPE) && (mainM->isIn() == false)) 
+	else if ((event.type == SDL_KEYDOWN) && (event.key.repeat == 0) && (event.key.keysym.sym == SDLK_ESCAPE) && (mainM->isIn() == false)) //if player pause game
 	{
 		pauseM->setIn(true);
-		SDL_Log("bubun hah\n");
 	}
 
 
@@ -56,7 +53,13 @@ void Game::eventHandler()
 
 void Game::clear() 
 {
-	delete lvl;
+	if (lvl != NULL) 
+	{
+		lvl->~level();
+	}
+	pauseM->~menu();
+	mainM->~menu();
+	
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -66,47 +69,91 @@ void Game::clear()
 
 void Game::update() 
 {	
-	if(mainM->isIn())
+	if(mainM->isIn()) //if player is in main menu
 	{
 		switch (mainM->buttonPressed(&event))
 		{
-		case 1:
-			delete lvl;
+		case 1: // select lvl 1
+			if (lvl != NULL) 
+			{
+				lvl->~level();
+				lvl = NULL;
+			}
+
 			lvl = new level(renderer, 1);
 			break;
-		case 2:
-			delete lvl;
+		case 2: // select lvl 2
+			if (lvl != NULL)
+			{
+				lvl->~level();
+				lvl = NULL;
+			}
+
 			lvl = new level(renderer, 2);
 			break;
-		case 3:
-			delete lvl;
+		case 3: // select lvl 3
+			if (lvl != NULL)
+			{
+				lvl->~level();
+				lvl = NULL;
+			}
+
 			lvl = new level(renderer, 3);
 			break;
-		case 4:
+		case 4: //if quit
 			running = false;
 			break;
 		default:
 			break;
 		}
 	}
-	else if(pauseM->isIn())
+	else if(pauseM->isIn()) //if player is in pause menu
 	{
 		switch (pauseM->buttonPressed(&event))
 		{
-		case 0:
+		case 0: //continue
 			pauseM->setIn(false);
 			break;
-		case 1:
+		case 1: //exit to main menu
 			pauseM->setIn(false);
+			if (lvl != NULL) 
+			{
+				lvl->~level();
+				lvl = NULL;
+			}
 			mainM->setIn(true);
 			break;
 		default:
 			break;
 		}
 	}
-	else 
+	else // if player is in game
 	{
-		lvl->lvlEventHandler(&event, renderer);
+		int i = lvl->getID();
+		switch (lvl->lvlEventHandler(&event, renderer))
+		{
+		case 1: //player died, reset lvl
+			lvl->~level();
+			lvl = NULL;
+			lvl = new level(renderer, i);
+			break;
+		case 2: //next lvl
+			if(i == 3)
+			{
+				lvl->~level();
+				lvl = NULL;
+				mainM->setIn(true);
+			}
+			else
+			{
+				lvl->~level();
+				lvl = NULL;
+				lvl = new level(renderer, i + 1);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -123,7 +170,7 @@ void Game::render()
 	{
 		pauseM->draw(renderer);
 	}
-	else 
+	else if(lvl != NULL)
 	{
 		lvl->drawLvlFloor(renderer);
 		lvl->drawLvlObjs(renderer);

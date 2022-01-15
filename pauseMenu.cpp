@@ -2,7 +2,11 @@
 
 void pauseMenu::loadTextures(SDL_Renderer* rend) 
 {
-	buttonsTextures = new SDL_Texture*[4];
+	buttonsTextures = new SDL_Texture*[8];
+	for (int i = 0; i < 8; i++) 
+	{
+		buttonsTextures[i] = NULL;
+	}
 	buttonsTextures[0] = textureManager::loadTexture("assets/png/continue.png", rend);
 	buttonsTextures[1] = textureManager::loadTexture("assets/png/continue1.png", rend);
 	buttonsTextures[2] = textureManager::loadTexture("assets/png/main_menu.png", rend);
@@ -13,30 +17,9 @@ void pauseMenu::loadTextures(SDL_Renderer* rend)
 	buttonHitBoxes[1] = { 450,350,300,100 };
 }
 
-int pauseMenu::eventHandler(SDL_Event* e, SDL_Renderer* rend)
-{
-	while (true)
-	{
-		int i = buttonPressed(e);
-		if (i == 1) 
-		{
-			return 1;
-		}
-		else if (i == 0) 
-		{
-			return 0;
-		}
-
-		SDL_SetRenderDrawColor(rend, 255, 255, 255, 255);
-		SDL_RenderClear(rend);
-		draw(rend);
-		SDL_RenderPresent(rend);
-	}
-}
-
 void pauseMenu::draw(SDL_Renderer* rend)
 {
-	if (active[0]) 
+	if (active[0]) // continue button
 	{
 		textureManager::drawTexture(buttonsTextures[1], NULL, rend, &buttonHitBoxes[0], 0);
 	}
@@ -45,7 +28,7 @@ void pauseMenu::draw(SDL_Renderer* rend)
 		textureManager::drawTexture(buttonsTextures[0], NULL, rend, &buttonHitBoxes[0], 0);
 	}
 
-	if (active[1]) 
+	if (active[1]) // main menu button
 	{
 		textureManager::drawTexture(buttonsTextures[3], NULL, rend, &buttonHitBoxes[1], 0);
 	}

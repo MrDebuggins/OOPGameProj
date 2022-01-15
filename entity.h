@@ -5,7 +5,6 @@ class entity : public animatedGameObj
 protected:
 	int xVelocity; 
 	int yVelocity;
-	//int viewDirection;
 	int HP;
 	int lastShootTime;
 
@@ -14,19 +13,16 @@ public:
 	{
 		xVelocity = 0;
 		yVelocity = 0;
-		//viewDirection = 0;
 		HP = 0;
 		lastShootTime = 0;
 	}
 
 	~entity() 
 	{
-		xVelocity = NULL;
-		yVelocity = NULL;
-		//viewDirection = NULL;
-		HP = NULL;
+		for (int i = 0; i < 2; i++) 
+		{
+			SDL_DestroyTexture(texturesArray[i]);
+		}
 	}
-
-	//virtual void loadTextures(SDL_Renderer* rend) = 0;
 };
 

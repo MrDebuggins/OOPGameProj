@@ -5,32 +5,30 @@ class Enemy : public entity
 {
 	int enemyLvl = 1;
 
-	bool movementDirFlags[4] = {1,1,1,1};
-	int distanceToMove = 0;
-	int movementContor = 0;
+	bool movementDirFlags[4];
+	int distanceToMove;
+	int movementContor;
 
 	bool alive = false;
 	bool canShoot = true;
-	//int timeFromLastShot = 0;
 
 public:
 	
 
 	Enemy() 
 	{
-		shape = { 1,1,70,100 };
-		type = objTypeEnemy;
-
-		//enemyLvl = 1;
+		shape = { 1,1,50,50 };
+		movementDirFlags[0] = true;
+		movementDirFlags[1] = true;
+		movementDirFlags[2] = true;
+		movementDirFlags[3] = true;
+		distanceToMove = 0;
+		movementContor = 0;
+		alive = false;
+		canShoot = false;
 	}
 
-	~Enemy() 
-	{
-		enemyLvl = NULL;
-		distanceToMove = NULL;
-		movementContor = NULL;
-		alive = NULL;
-	}
+	~Enemy() {}
 
 	void loadTexture(SDL_Renderer* rend);
 	void setEnemyiHitBox(SDL_Rect r);
@@ -45,8 +43,6 @@ public:
 	void move();
 	void getDmg(int dmg);
 	bool getState() { return alive; }
-	void checkIfCanDodge(int dir);
-	bool checkDirForStaticObjs(SDL_Rect* s);
 	int getViewDir() { return viewDirection; }
 };
 

@@ -19,12 +19,12 @@ void level::drawLvlFloor(SDL_Renderer* rend)
 
 void level::drawLvlObjs(SDL_Renderer* rend) 
 {
-	for (int i = 0; i < objNr; i++) 
+	for (int i = 0; i < objNr; i++) //draw static objects
 	{
 		lvlObjsArray[i]->drawStaticObj(rend);
 	}
 
-	for (int i = 0; i < enemiesNr; i++) 
+	for (int i = 0; i < enemiesNr; i++) //draw enemies
 	{
 		if (enemies[i] != NULL)
 			enemies[i]->draw(rend);
@@ -32,17 +32,18 @@ void level::drawLvlObjs(SDL_Renderer* rend)
 
 	player->draw(rend);
 
-	for (int i = 0; i <= enemiesNr; i++) 
+	for (int i = 0; i <= enemiesNr; i++) //draw shells
 	{
 		projectiles[i]->draw(rend);
 	}
 
-	if (explosions.size() != 0) 
+	if (explosions.size() != 0) //draw explosions
 	{
 			for (auto a : explosions) 
 			{
 				if (a->draw(rend)) 
 				{
+					a->~effect();
 					explosions.pop_back();
 					break;
 				}
@@ -54,19 +55,36 @@ void level::loadLvlData(SDL_Renderer* rend)
 {
 	ifstream objData;
 
-	switch (lvlID)
+	try
 	{
-	case 1:
-		objData.open("config/lvl1/lvl1_objs.txt");
-		break;
-	case 2:
-		objData.open("config/lvl2/lvl2_objs.txt");
-		break;
-	case 3:
-		objData.open("config/lvl3/lvl3_objs.txt");
-		break;
-	default:
-		break;
+		switch (lvlID)
+		{
+		case 1:
+			objData.open("config/lvl1/lvl1_objs.txt");
+			break;
+		case 2:
+			objData.open("config/lvl2/lvl2_objs.txt");
+			break;
+		case 3:
+			objData.open("config/lvl3/lvl3_objs.txt");
+			break;
+		default:
+			break;
+		}
+
+		if (objData.fail())
+		{
+			if (lvlID == 1)
+				throw "Can't open file: config/lvl1/lvl1_objs.txt\n";
+			else if (lvlID == 2)
+				throw "Can't open file: config/lvl2/lvl2_objs.txt\n";
+			else
+				throw "Can't open file: config/lvl3/lvl3_objs.txt\n";
+		}
+	}
+	catch (const char* str)
+	{
+		SDL_Log("%s", str);
 	}
 
 	objData >> objNr;
@@ -79,14 +97,13 @@ void level::loadLvlData(SDL_Renderer* rend)
 	{
 		lvlObjsArray[i] = new staticGameObj;
 
-		int j;								//choose what texture to load for this obj
+		int j;								
 		objData >> j;
-		if (j == 1)
-			lvlObjsArray[i]->loadStaticObjTexture("assets/png/FLOOR_1A.png", rend);
-		else
-			lvlObjsArray[i]->loadStaticObjTexture("assets/png/FLOOR_1A.png", rend);
+
+		lvlObjsArray[i]->loadStaticObjTexture("assets/png/FLOOR_1A.png", rend);
 
 		objData >> staticHitBoxes[i].x >> staticHitBoxes[i].y >> staticHitBoxes[i].w >> staticHitBoxes[i].h;
+		staticHitBoxes[i].w = 50; staticHitBoxes[i].h = 50;
 
 		lvlObjsArray[i]->setObjHitBox(staticHitBoxes[i]);
 	}
@@ -94,22 +111,45 @@ void level::loadLvlData(SDL_Renderer* rend)
 	objData.close();
 
 	//load projectiles and enemies from txt file
-	switch (lvlID)
+	try
 	{
-	case 1:
-		objData.open("config/lvl1/lvl1_enemies.txt");
-		break;
-	case 2:
-		objData.open("config/lvl2/lvl2_enemies.txt");
-		break;
-	case 3:
-		objData.open("config/lvl3/lvl3_enemies.txt");
-		break;
-	default:
-		break;
+		switch (lvlID)
+		{
+		case 1:
+			objData.open("config/lvl1/lvl1_enemies.txt");
+			break;
+		case 2:
+			objData.open("config/lvl2/lvl2_enemies.txt");
+			break;
+		case 3:
+			objData.open("config/lvl3/lvl3_enemies.txt");
+			break;
+		default:
+			break;
+		}
+
+		if (objData.fail())
+		{
+			if (lvlID == 1)
+				throw "Can't open file: config/lvl1/lvl1_enemies.txt\n";
+			else if (lvlID == 2)
+				throw "Can't open file: config/lvl2/lvl2_enemies.txt\n";
+			else
+				throw "Can't open file: config/lvl3/lvl3_enemies.txt\n";
+		}
+	}
+	catch (const char* str)
+	{
+		SDL_Log("%s", str);
 	}
 
+
 	objData >> enemiesNr;
+	if (enemiesNr == 0) 
+	{
+		SDL_Log("Invalid number of enemies! Config files corrupted!\n");
+	}
+	enemiesCounter = enemiesNr;
 	enemies = new Enemy*[enemiesNr];
 
 	projectiles = new projectile * [enemiesNr + 1];
@@ -133,6 +173,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 		enemies[i]->loadTexture(rend);
 	}
 
+	// player projectile
 	projectiles[enemiesNr] = new projectile;
 	projectiles[enemiesNr]->setType(1);
 	projectiles[enemiesNr]->loadTexture(rend);
@@ -142,8 +183,11 @@ void level::loadLvlData(SDL_Renderer* rend)
 	player->loadTextures(rend);
 }
 
-void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend) 
+int level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend) 
 {
+	if (enemiesCounter <= 0) //next lvl
+		return 2;
+
 	if (player->inputHandler(e)) //shoot
 	{
 		SDL_Rect* r = player->getHitBox();
@@ -151,10 +195,11 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 	}
 	//
 	//
-	//player collision with static obj's
+	//player collision with static objects
 	for (int i = 0; i < objNr; i++) 
 	{
-		player->objsCollision(staticHitBoxes[i]);
+		if (player->objsCollision(staticHitBoxes[i]))
+			return 1;
 	}
 	//player collision with enemies
 	for (int i = 0; i < enemiesNr; i++) 
@@ -169,7 +214,7 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 	//
 	//
 	//shells collision
-		//player's shell collision
+		//player shell collision
 	if (projectiles[enemiesNr]->getExistFlag()) 
 	{
 		for (int k = 0; k < enemiesNr; k++) //with enmeies
@@ -183,6 +228,7 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 				{
 					delete enemies[k];
 					enemies[k] = NULL;
+					enemiesCounter--;
 
 					explosions.push_front(new effect(false, tempRect.x - 10, tempRect.y - 10, rend, true));
 				}
@@ -202,7 +248,7 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 		//enemies shells collision
 	for (int i = 0; i < enemiesNr; i++) 
 	{
-		player->getDmg(projectiles[i]->objCollision(player->getHitBox()));
+		player->getDmg(projectiles[i]->objCollision(player->getHitBox()));// with player
 		
 		for (int k = 0; k < objNr; k++) //with static obj's
 		{
@@ -223,10 +269,11 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 
 			for (int j = 0; j < objNr; j++)
 			{
-				enemies[i]->setDirFlags(staticHitBoxes[j]);  //verify directions by static obj's
+				enemies[i]->setDirFlags(staticHitBoxes[j]);  //verify directions by static objects
 			}
 
-			if (enemies[i]->behaviour(projectiles[enemiesNr]->getHitBox(), projectiles[enemiesNr]->getViewDir(), player->getHitBox(), staticHitBoxes, objNr)) 
+			//shoot
+			if (enemies[i]->behaviour(projectiles[enemiesNr]->getHitBox(), projectiles[enemiesNr]->getViewDir(), player->getHitBox(), staticHitBoxes, objNr))
 			{
 				SDL_Rect temp = enemies[i]->getHitBox();
 				projectiles[i]->setExistFlag(true, enemies[i]->getViewDir(), temp.x, temp.y);
@@ -244,4 +291,6 @@ void level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 			enemies[i]->move();
 		}
 	}
+
+	return 0;
 }

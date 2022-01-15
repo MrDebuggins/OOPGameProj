@@ -210,6 +210,21 @@
     <Image Include="assets\png\quit1.png">
       <Filter>assets\png</Filter>
     </Image>
+    <Image Include="assets\png\hp0.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\hp1.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\hp2.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\hp3.png">
+      <Filter>assets\png</Filter>
+    </Image>
+    <Image Include="assets\png\hp4.png">
+      <Filter>assets\png</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -326,5 +341,6 @@
     <None Include="config\lvl1\lvl1_enemies.txt">
       <Filter>config\lvl1</Filter>
     </None>
+    <None Include="Titlul proiectului.docx" />
   </ItemGroup>
 </Project>
