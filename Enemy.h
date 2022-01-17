@@ -35,7 +35,7 @@ public:
 	void setEnemyLvl(int lvl);
 	int getEnemyLvl();
 	void draw(SDL_Renderer* rend);
-	SDL_Rect getHitBox();
+	//SDL_Rect* getHitBox();
 	void setDirFlags(SDL_Rect s);
 	void mapCollision();
 	bool behaviour(SDL_Rect* shell, int shellDir, SDL_Rect* player, SDL_Rect* objs, int objsNr);

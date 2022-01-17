@@ -75,11 +75,6 @@ void Enemy::draw(SDL_Renderer* rend)
 	textureManager::drawTexture(texturesArray[animID / 5], NULL, rend, &shape, viewDirection);
 }
 
-SDL_Rect Enemy::getHitBox() 
-{
-	return shape;
-}
-
 void Enemy::setDirFlags(SDL_Rect s) 
 {
 	

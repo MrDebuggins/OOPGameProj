@@ -103,13 +103,13 @@ bool Player::inputHandler(SDL_Event* e)
 bool Player::objsCollision(SDL_Rect r)
 {
 	//static game objects collision detection 
-	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 1) && (shape.x + shape.h < r.x + 1) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
+	if ((xVelocity > 0) && (shape.x + shape.h >= r.x - 2) && (shape.x + shape.h < r.x + 1) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h) && (viewDirection == 90))
 		xVelocity = 0;
-	if ((xVelocity < 0) && (shape.x <= r.x + r.w + 1) && (shape.x > r.x + r.w - 1) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h))
+	if ((xVelocity < 0) && (shape.x <= r.x + r.w + 2) && (shape.x > r.x + r.w - 1) && (shape.y >= r.y - shape.w) && (shape.y <= r.y + r.h) && (viewDirection == 270))
 		xVelocity = 0;
-	if ((yVelocity > 0) && (shape.y + shape.h >= r.y - 1) && (shape.y < r.y + 1) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
+	if ((yVelocity > 0) && (shape.y + shape.h >= r.y - 2) && (shape.y < r.y + 1) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w) && (viewDirection == 180))
 		yVelocity = 0;
-	if ((yVelocity < 0) && (shape.y <= r.y + r.h + 1) && (shape.y > r.y + r.h - 1) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w))
+	if ((yVelocity < 0) && (shape.y <= r.y + r.h + 2) && (shape.y > r.y + r.h - 1) && (shape.x >= r.x - shape.w) && (shape.x <= r.x + r.w) && (viewDirection == 0))
 		yVelocity = 0;
 
 	if (HP <= 0)
@@ -159,11 +159,6 @@ void Player::move()
 int Player::getViewDir()
 {
 	return viewDirection;
-}
-
-SDL_Rect* Player::getHitBox()
-{
-	return &shape;
 }
 
 void Player::getDmg(int dmg)

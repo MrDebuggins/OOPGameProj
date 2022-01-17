@@ -36,7 +36,7 @@ public:
 	int objCollision(SDL_Rect* obj);
 	void move();
 	void draw(SDL_Renderer* rend);
-	SDL_Rect* getHitBox() { return &shape; }
+	//SDL_Rect* getHitBox() { return &shape; }
 	int getViewDir() { return viewDir; }
 };
 

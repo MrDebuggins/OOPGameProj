@@ -14,5 +14,7 @@ public:
 	}
 
 	~gameObject() {}
+
+	SDL_Rect* getHitBox() { return &shape; }
 };
 
