@@ -55,6 +55,7 @@ void level::loadLvlData(SDL_Renderer* rend)
 {
 	ifstream objData;
 
+	//load static objects from txt file
 	try
 	{
 		switch (lvlID)
@@ -91,8 +92,6 @@ void level::loadLvlData(SDL_Renderer* rend)
 	lvlObjsArray = new staticGameObj*[objNr];
 	staticHitBoxes = new SDL_Rect[objNr];
 
-
-	//load static objects from txt file
 	for (int i = 0; i < objNr; i++) 
 	{
 		lvlObjsArray[i] = new staticGameObj;

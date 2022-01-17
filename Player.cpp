@@ -1,6 +1,7 @@
 #include "Player.h"
-#include "textureManager.h"
 #include "Game.h"
+
+using namespace textureManager;
 
 bool Player::inputHandler(SDL_Event* e)
 {
@@ -128,11 +129,11 @@ void Player::mapCollision()
 void Player::draw(SDL_Renderer* rend) 
 {
 	textureManager::drawTexture(texturesArray[animID/5], NULL, rend, &shape, viewDirection);
-
 	if(HP >= 0 && HP < 5)
 	{
 		SDL_Rect r = { 0, 620, 70,30 };
 		textureManager::drawTexture(HPtextures[HP], NULL, rend, &r, 0);
+		
 	}
 }
 

@@ -114,7 +114,9 @@
     <ClInclude Include="pauseMenu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="projectile.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="staticGameObj.h" />
+    <ClInclude Include="textureM.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +129,9 @@
   <ItemGroup>
     <None Include="config\lvl1\lvl1_enemies.txt" />
     <None Include="Titlul proiectului.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="OOPGameProj.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
