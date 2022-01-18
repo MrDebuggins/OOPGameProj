@@ -220,11 +220,12 @@ int level::lvlEventHandler(SDL_Event* e, SDL_Renderer* rend)
 		{
 			if (enemies[k] != NULL)
 			{
-				SDL_Rect* tempRect = enemies[k]->getHitBox();
-				enemies[k]->getDmg(projectiles[enemiesNr]->objCollision(tempRect));
+				
+				enemies[k]->getDmg(projectiles[enemiesNr]->objCollision(enemies[k]->getHitBox()));
 
 				if (enemies[k]->getState() == false) //destroy npc
 				{
+					SDL_Rect* tempRect = enemies[k]->getHitBox();
 					explosions.push_front(new effect(false, tempRect->x - 10, tempRect->y - 10, rend, true));
 
 					delete enemies[k];

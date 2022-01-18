@@ -129,10 +129,10 @@ void Player::mapCollision()
 void Player::draw(SDL_Renderer* rend) 
 {
 	textureManager::drawTexture(texturesArray[animID/5], NULL, rend, &shape, viewDirection);
-	if(HP >= 0 && HP < 5)
+	if(HP >= 0 && HP < 7)
 	{
 		SDL_Rect r = { 0, 620, 70,30 };
-		textureManager::drawTexture(HPtextures[HP], NULL, rend, &r, 0);
+		textureManager::drawTexture(HPtextures[HP/2], NULL, rend, &r, 0);
 		
 	}
 }
@@ -143,12 +143,11 @@ void Player::loadTextures(SDL_Renderer* rend)
 	texturesArray[0] = textureManager::loadTexture("assets/png/1.png", rend);
 	texturesArray[1] = textureManager::loadTexture("assets/png/2.png", rend);
 
-	HPtextures = new SDL_Texture * [5];
+	HPtextures = new SDL_Texture * [4];
 	HPtextures[0] = textureManager::loadTexture("assets/png/hp0.png", rend);
-	HPtextures[1] = textureManager::loadTexture("assets/png/hp1.png", rend);
-	HPtextures[2] = textureManager::loadTexture("assets/png/hp2.png", rend);
-	HPtextures[3] = textureManager::loadTexture("assets/png/hp3.png", rend);
-	HPtextures[4] = textureManager::loadTexture("assets/png/hp4.png", rend);
+	HPtextures[1] = textureManager::loadTexture("assets/png/hp2.png", rend);
+	HPtextures[2] = textureManager::loadTexture("assets/png/hp4.png", rend);
+	HPtextures[3] = textureManager::loadTexture("assets/png/hp6.png", rend);
 }
 
 void Player::move() 

@@ -225,6 +225,9 @@
     <Image Include="assets\png\hp4.png">
       <Filter>assets\png</Filter>
     </Image>
+    <Image Include="assets\png\hp6.png">
+      <Filter>assets\png</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

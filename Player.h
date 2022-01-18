@@ -10,11 +10,11 @@ public:
 		HPtextures = NULL;
 		shape = { 1,1,50,50 };
 		velocity = 2;
-		HP = 1000;
+		HP = 6;
 	}
 	~Player() 
 	{
-		for(int i = 0; i < 5; i++)
+		for(int i = 0; i < 4; i++)
 		{
 			SDL_DestroyTexture(HPtextures[i]);
 		}
