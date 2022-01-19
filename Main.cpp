@@ -5,18 +5,18 @@ using namespace std;
 
 int main(int argc, char* argv[]) 
 {
-	Game* gaym = new Game;
-	gaym->initGame("Game", 50, 50, SDL_WINDOW_SHOWN);
+	Game* game = new Game;
+	game->initGame("Game", 50, 50, SDL_WINDOW_SHOWN);
 
 
-	while (gaym->isRunning()) 
+	while (game->isRunning()) 
 	{
-		gaym->eventHandler();
-		gaym->update();
-		gaym->render();
+		game->eventHandler();
+		game->update();
+		game->render();
 	}
 
-	gaym->clear();
+	game->clear();
 
 	return 0;
 }
