@@ -89,6 +89,11 @@ void level::loadLvlData(SDL_Renderer* rend)
 	}
 
 	objData >> objNr;
+	if (objNr < 0) 
+	{
+		SDL_Log("Invalid number! Config files corrupted!\n");
+		objNr = 0;
+	}
 	lvlObjsArray = new staticGameObj*[objNr];
 	staticHitBoxes = new SDL_Rect[objNr];
 
@@ -144,9 +149,10 @@ void level::loadLvlData(SDL_Renderer* rend)
 
 
 	objData >> enemiesNr;
-	if (enemiesNr == 0) 
+	if (enemiesNr < 0) 
 	{
 		SDL_Log("Invalid number of enemies! Config files corrupted!\n");
+		enemiesNr = 0;
 	}
 	enemiesCounter = enemiesNr;
 	enemies = new Enemy*[enemiesNr];
