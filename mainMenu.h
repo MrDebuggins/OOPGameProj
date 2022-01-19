@@ -8,7 +8,6 @@ public:
 	void loadTextures(SDL_Renderer* rend);
 	void draw(SDL_Renderer* rend);
 	int buttonPressed(SDL_Event* e);
-	bool isIn() { return in; }
 
 	mainMenu()
 	{
